@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Position
 
 Phase: 1 of 5 (Backend Foundation)
-Plan: 0 of 2 in current phase
-Status: Ready to plan
-Last activity: 2026-02-25 — Roadmap created, phases derived from requirements
+Plan: 1 of 2 in current phase (01-01 at checkpoint — awaiting spike results)
+Status: Checkpoint — human verification required
+Last activity: 2026-02-25 — Plan 01-01 tasks 1 & 2 complete; stopped at Task 3 checkpoint
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 10%
 
 ## Performance Metrics
 
@@ -45,6 +45,10 @@ Recent decisions affecting current work:
 - [Init]: Stack = Fastify + Vue.js 3 + node-sonos (UPnP) + ws WebSocket
 - [Init]: No database — state is ephemeral, held in memory cache
 - [Phase 1]: node-sonos compatibility with current Sonos firmware is unverified — spike required Day 1
+- [01-01]: ESM module type + NodeNext TS resolution — required for Fastify v5 TypeScript patterns
+- [01-01]: ES2022 TypeScript target — avoids Fastify deprecation warnings
+- [01-01]: dotenv: false in @fastify/env — all config from docker-compose environment only
+- [01-01]: Sonos library TBD — spike results pending; plan 01-02 blocked until user reports spike outcome
 
 ### Pending Todos
 
@@ -58,5 +62,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-25
-Stopped at: Roadmap written, STATE.md initialized. Ready to run /gsd:plan-phase 1.
+Stopped at: Plan 01-01 Task 3 checkpoint — Sonos spike script ready, awaiting real hardware validation. Run spike on Sonos network and report results to proceed with 01-02.
 Resume file: None
