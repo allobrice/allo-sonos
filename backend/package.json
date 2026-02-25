@@ -15,8 +15,11 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/env": "^5.0.3",
+    "@svrooij/sonos": "^2.5.0",
+    "fast-xml-parser": "^5.4.1",
     "fastify": "^5.7.4",
-    "fastify-plugin": "^5.1.0"
+    "fastify-plugin": "^5.1.0",
+    "sonos": "^1.14.2"
   },
   "devDependencies": {
     "@types/node": "^25.3.0",
