@@ -29,11 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. A discovered speaker can be commanded (e.g., pause) via a direct API call and the speaker responds
   3. If SSDP discovery fails, the backend accepts a manually configured IP and treats it as a valid speaker
   4. The backend correctly identifies the coordinator of a zone group so commands reach the right speaker
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Project scaffold + Fastify server + node-sonos spike
-- [ ] 01-02: SSDP discovery service + manual IP fallback + speaker registry
+- [ ] 01-01-PLAN.md — Project scaffold + Fastify server + Docker setup + Sonos library spike
+- [ ] 01-02-PLAN.md — SSDP discovery service + manual IP fallback + speaker registry + REST endpoints
 
 ### Phase 2: Playback Commands
 **Goal**: Every transport control (play, pause, volume, mute, skip) is available and works on any discovered zone via the API
