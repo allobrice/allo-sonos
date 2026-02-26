@@ -1,3 +1,16 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: unknown
+last_updated: "2026-02-26T15:18:13.173Z"
+progress:
+  total_phases: 1
+  completed_phases: 0
+  total_plans: 2
+  completed_plans: 1
+---
+
 # Project State
 
 ## Project Reference
@@ -10,30 +23,34 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Position
 
 Phase: 1 of 5 (Backend Foundation)
-Plan: 1 of 2 in current phase (01-01 at checkpoint — awaiting spike results)
-Status: Checkpoint — human verification required
-Last activity: 2026-02-25 — Plan 01-01 tasks 1 & 2 complete; stopped at Task 3 checkpoint
+Plan: 2 of 2 in current phase (01-01 complete — proceeding to 01-02)
+Status: In Progress
+Last activity: 2026-02-26 — Plan 01-01 complete; spike resolved, direct SOAP confirmed
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [█░░░░░░░░░] 20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 45 min
+- Total execution time: ~45 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-backend-foundation | 1 | 45 min | 45 min |
 
 **Recent Trend:**
-- Last 5 plans: —
+- Last 5 plans: 45 min
 - Trend: —
 
 *Updated after each plan completion*
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01-backend-foundation P01 | 45 min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -48,7 +65,9 @@ Recent decisions affecting current work:
 - [01-01]: ESM module type + NodeNext TS resolution — required for Fastify v5 TypeScript patterns
 - [01-01]: ES2022 TypeScript target — avoids Fastify deprecation warnings
 - [01-01]: dotenv: false in @fastify/env — all config from docker-compose environment only
-- [01-01]: Sonos library TBD — spike results pending; plan 01-02 blocked until user reports spike outcome
+- [01-01]: Sonos library RESOLVED — spike confirmed direct SOAP (see 01-01 decisions below)
+- [Phase 01-01]: Direct SOAP (raw fetch to port 1400) is the Sonos command layer — @svrooij/sonos command API broken at runtime on real hardware (pause is not a function)
+- [Phase 01-01]: @svrooij/sonos retained for SSDP discovery only — InitializeWithDiscovery() correctly finds speakers and identifies group coordinators
 
 ### Pending Todos
 
@@ -56,11 +75,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 1]: node-sonos (~2022, unmaintained) may be incompatible with current Sonos firmware. Spike must pass before committing to it. Fallback: node-sonos-http-api or direct HTTP to Sonos Local Control API (port 1443).
-- [Phase 1]: SSDP multicast may be blocked on the corporate network. Manual IP fallback must be built in Phase 1.
+- [Phase 1 — RESOLVED]: node-sonos library compatibility confirmed via spike — using direct SOAP instead. @svrooij/sonos used for SSDP discovery only.
+- [Phase 1]: SSDP multicast may be blocked on the corporate network. Manual IP fallback must be built in Plan 01-02 (SONOS_SPEAKER_IPS env var already validated in env plugin).
 
 ## Session Continuity
 
-Last session: 2026-02-25
-Stopped at: Plan 01-01 Task 3 checkpoint — Sonos spike script ready, awaiting real hardware validation. Run spike on Sonos network and report results to proceed with 01-02.
+Last session: 2026-02-26
+Stopped at: Completed Plan 01-01 — spike resolved (direct SOAP confirmed on real hardware), SUMMARY.md created. Ready to execute Plan 01-02.
 Resume file: None
