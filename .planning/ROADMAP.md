@@ -12,7 +12,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Backend Foundation** - Backend Fastify opérationnel, découverte SSDP des enceintes, registre des speakers
+- [x] **Phase 1: Backend Foundation** - Backend Fastify opérationnel, découverte SSDP des enceintes, registre des speakers (completed 2026-02-26)
 - [ ] **Phase 2: Playback Commands** - Contrôles de lecture complets (play/pause, volume, mute, skip) via REST API
 - [ ] **Phase 3: Real-time State Sync** - Cache d'état, souscriptions GENA/UPnP, push WebSocket vers le navigateur
 - [ ] **Phase 4: App Shell + PIN Auth** - Application Vue protégée par PIN, layout responsive mobile-first
@@ -102,7 +102,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Backend Foundation | 1/2 | In Progress|  |
+| 1. Backend Foundation | 2/2 | Complete   | 2026-02-26 |
 | 2. Playback Commands | 0/1 | Not started | - |
 | 3. Real-time State Sync | 0/2 | Not started | - |
 | 4. App Shell + PIN Auth | 0/2 | Not started | - |
