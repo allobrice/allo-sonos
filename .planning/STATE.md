@@ -35,10 +35,10 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Current Position
 
-Phase: 1 of 5 (Backend Foundation) — COMPLETE
-Plan: 2 of 2 in phase 01 (01-02 complete — INFRA-04 satisfied)
-Status: Phase 1 Complete
-Last activity: 2026-02-26 — Plan 01-02 complete; INFRA-04 fully implemented
+Phase: 2 of 5 (Playback Commands) — Context gathered, ready for planning
+Plan: 0 of TBD in phase 02
+Status: Phase 2 Context Gathered
+Last activity: 2026-02-27 — Phase 2 context gathered (discuss-phase)
 
 Progress: [██░░░░░░░░] 40%
 
@@ -97,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-26
-Stopped at: Completed Plan 01-02 — discovery service, speaker registry, REST endpoints. INFRA-04 satisfied. Phase 1 complete.
-Resume file: None
+Last session: 2026-02-27
+Stopped at: Phase 2 context gathered — decisions captured for endpoint design, volume control, response format, zone targeting.
+Resume file: .planning/phases/02-playback-commands/02-CONTEXT.md
