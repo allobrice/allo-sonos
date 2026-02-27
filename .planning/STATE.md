@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-27T14:48:43.241Z"
+last_updated: "2026-02-27T15:39:28.355Z"
 progress:
-  total_phases: 2
+  total_phases: 3
   completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 5
+  completed_plans: 4
 ---
 
 ---
@@ -92,6 +92,7 @@ Progress: [████░░░░░░] 60%
 | Phase 01-backend-foundation P01 | 45 min | 3 tasks | 10 files |
 | Phase 01-backend-foundation P02 | 10 min | 2 tasks | 5 files |
 | Phase 02-playback-commands P01 | 3 | 3 tasks | 3 files |
+| Phase 03-real-time-state-sync P01 | 8 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -115,6 +116,9 @@ Recent decisions affecting current work:
 - [Phase 02-playback-commands]: Volume endpoint uses PUT (REST semantics for idempotent resource update)
 - [Phase 02-playback-commands]: State reading is best-effort — readSpeakerState returns null on any error, command success unaffected
 - [Phase 02-playback-commands]: XMLParser uses removeNSPrefix: true to strip SOAP namespace prefixes from parsed response keys
+- [Phase 03-real-time-state-sync]: broadcastFn injected via StateCache constructor — decouples cache from WS plugin, avoids circular dependency
+- [Phase 03-real-time-state-sync]: 300ms debounce per UUID — multiple rapid GENA patches collapse into single broadcast
+- [Phase 03-real-time-state-sync]: GET /ws is server-to-client only — clients issue commands via REST, no incoming WS message handling
 
 ### Pending Todos
 
