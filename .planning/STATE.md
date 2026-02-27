@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-last_updated: "2026-02-27T16:32:00Z"
+last_updated: "2026-02-27T16:37:21Z"
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # Project State
@@ -18,23 +18,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
-**Current focus:** Phase 4 Plan 01 complete — PIN auth gate and Vue 3 frontend scaffold
+**Current focus:** Phase 4 Plan 02 complete — app shell layout, design tokens, WebSocket indicator
 
 ## Current Position
 
-Phase: 4 of 5 (App Shell + PIN Auth) — Plan 01 complete
-Plan: 1 of 2 in phase 04
-Status: Phase 4 Plan 01 Complete — ready for Plan 04-02 (App Shell Layout + Design Tokens)
-Last activity: 2026-02-27 — Vue 3 SPA with PIN auth gate, Pinia store, router guard, PinPad component
+Phase: 4 of 5 (App Shell + PIN Auth) — Plan 02 complete (awaiting human verification checkpoint)
+Plan: 2 of 2 in phase 04
+Status: Phase 4 Plan 02 auto tasks complete — at human-verify checkpoint for visual/functional validation
+Last activity: 2026-02-27 — CSS design tokens, AppHeader, AppNav, useWebSocket, App.vue shell layout
 
-Progress: [████████░░] 75%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: ~17 min
-- Total execution time: ~100 min
+- Total plans completed: 7
+- Average duration: ~15 min
+- Total execution time: ~102 min
 
 **By Phase:**
 
@@ -43,10 +43,10 @@ Progress: [████████░░] 75%
 | 01-backend-foundation | 2 | 55 min | 27.5 min |
 | 02-playback-commands | 1 | 3 min | 3 min |
 | 03-real-time-state-sync | 2 | 20 min | 10 min |
-| 04-app-shell-pin-auth | 1 | 3 min | 3 min |
+| 04-app-shell-pin-auth | 2 | 5 min | 2.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 45 min, 10 min, 3 min, 8 min, 12 min, 3 min
+- Last 5 plans: 10 min, 3 min, 8 min, 12 min, 3 min, 2 min
 - Trend: Fast
 
 *Updated after each plan completion*
@@ -59,6 +59,7 @@ Progress: [████████░░] 75%
 | Phase 03-real-time-state-sync P01 | 8 min | 2 tasks | 5 files |
 | Phase 03-real-time-state-sync P02 | 12 min | 2 tasks | 4 files |
 | Phase 04-app-shell-pin-auth P01 | 3 min | 2 tasks | 20 files |
+| Phase 04-app-shell-pin-auth P02 | 2 min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,10 @@ Recent decisions affecting current work:
 - [Phase 04-01]: Pinia registered before Vue Router in main.ts so guard can access store synchronously
 - [Phase 04-01]: No shake animation on wrong PIN — plain text error, dots cleared (user decision)
 - [Phase 04-01]: Logout button is discreet (transparent, secondary color) — not prominent per user decision
+- [Phase 04-02]: useWebSocket composable is minimal in Phase 4 — only exposes connected ref; Phase 5 will expand to parse zone state
+- [Phase 04-02]: AppNav uses RouterLink active-class — relies on Vue Router built-in class management, no manual useRoute() comparison
+- [Phase 04-02]: error-msg always renders in DOM (not v-if) — min-height prevents layout shift when error appears/disappears
+- [Phase 04-02]: 100vh then 100dvh ordering in CSS — last-wins means dvh applies in supporting browsers, vh is fallback
 
 ### Pending Todos
 
@@ -106,5 +111,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 04-app-shell-pin-auth-01-PLAN.md — Vue 3 SPA scaffold with PIN auth gate, Pinia auth store, Vue Router guard, PinPad digicode component, and Fastify cookie session endpoints.
-Resume file: .planning/phases/04-app-shell-pin-auth/04-01-SUMMARY.md
+Stopped at: Completed 04-02 auto tasks — at checkpoint:human-verify for visual/functional app shell validation. Start backend + frontend dev servers to verify.
+Resume file: .planning/phases/04-app-shell-pin-auth/04-02-SUMMARY.md

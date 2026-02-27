@@ -26,7 +26,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Infrastructure
 
 - [x] **INFRA-01**: User must enter a shared PIN to access the app
-- [ ] **INFRA-02**: Interface is responsive and usable on both mobile and desktop
+- [x] **INFRA-02**: Interface is responsive and usable on both mobile and desktop
 - [x] **INFRA-03**: UI updates in real-time when state changes from another controller (Sonos app, voice, etc.)
 - [x] **INFRA-04**: Backend automatically discovers Sonos speakers on the local network
 
@@ -77,7 +77,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PLAY-04 | Phase 2 | Complete |
 | INFRA-03 | Phase 3 | Complete |
 | INFRA-01 | Phase 4 | Complete |
-| INFRA-02 | Phase 4 | Pending |
+| INFRA-02 | Phase 4 | Complete |
 | ZONE-01 | Phase 5 | Pending |
 | ZONE-02 | Phase 5 | Pending |
 | SRC-01 | Phase 5 | Pending |
