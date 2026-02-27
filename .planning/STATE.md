@@ -8,7 +8,7 @@ progress:
   total_phases: 2
   completed_phases: 0
   total_plans: 4
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -23,27 +23,27 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 5 of 6 (Zone Display)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-02-27 — Completed 05-01: Zone Store (Pinia) + WebSocket Integration
+Plan: 2 of 2 in current phase — Phase 5 COMPLETE
+Status: In progress (Phase 6 next)
+Last activity: 2026-02-27 — Completed 05-02: ZoneCard Component — Grid Layout, Now Playing, Source Indicator, Offline State
 
-Progress: [█░░░░░░░░░] 25%
+Progress: [██░░░░░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1 (v1.1)
-- Average duration: 54s
-- Total execution time: 54s
+- Total plans completed: 2 (v1.1)
+- Average duration: 71s
+- Total execution time: 2min 22s
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 5. Zone Display | 1/2 | 54s | 54s |
+| 5. Zone Display | 2/2 | 2min 22s | 71s |
 | 6. Playback Controls | 0/2 | — | — |
 
-**Recent Trend:** 1 plan completed today
+**Recent Trend:** 2 plans completed today
 
 ## Accumulated Context
 
@@ -57,6 +57,8 @@ Recent decisions affecting current work:
 - v1.0: Direct SOAP for commands, @svrooij/sonos for SSDP only — backend API is stable and complete
 - 05-01: useZonesStore uses Map<string, ZoneState> keyed by UUID — Map ref replaced on each mutation to trigger Pinia reactivity
 - 05-01: ZonesView opens its own WebSocket connection (separate from AppHeader) — correct for current architecture
+- 05-02: Inline SVG icons chosen over Unicode/text labels for monochrome source indicators — better visual quality without external dependencies
+- 05-02: isActive = isPlaying && !isOffline — accent border never shown on unreachable zones
 
 ### Pending Todos
 
@@ -69,5 +71,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 05-01-PLAN.md — Zone Store (Pinia) + WebSocket Integration
+Stopped at: Completed 05-02-PLAN.md — ZoneCard Component (Phase 5 complete)
 Resume file: None

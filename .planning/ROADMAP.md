@@ -31,7 +31,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 **Milestone Goal:** Dashboard grille montrant toutes les zones Sonos avec état en temps réel et contrôle direct par zone.
 
-- [ ] **Phase 5: Zone Display** — Grille de zones live : nom, now playing, source musicale, indicateur offline, WebSocket temps réel
+- [x] **Phase 5: Zone Display** — Grille de zones live : nom, now playing, source musicale, indicateur offline, WebSocket temps réel
 - [ ] **Phase 6: Playback Controls** — Contrôles interactifs par zone : play/pause, skip, volume slider, mute
 
 ## Phase Details
@@ -49,8 +49,8 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: Zone store (Pinia) + WebSocket integration — snapshot load, state_changed events, reconnect logic
-- [ ] 05-02: ZoneCard component — grid layout, now playing, source indicator, offline state, design tokens
+- [x] 05-01: Zone store (Pinia) + WebSocket integration — snapshot load, state_changed events, reconnect logic
+- [x] 05-02: ZoneCard component — grid layout, now playing, source indicator, offline state, design tokens
 
 ### Phase 6: Playback Controls
 **Goal**: Users can control any zone directly from the dashboard card without navigating away
@@ -78,5 +78,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Playback Commands | v1.0 | 1/1 | Complete | 2026-02-27 |
 | 3. Real-time State Sync | v1.0 | 2/2 | Complete | 2026-02-27 |
 | 4. App Shell + PIN Auth | v1.0 | 2/2 | Complete | 2026-02-27 |
-| 5. Zone Display | 1/2 | In Progress|  | - |
+| 5. Zone Display | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 6. Playback Controls | v1.1 | 0/2 | Not started | - |
