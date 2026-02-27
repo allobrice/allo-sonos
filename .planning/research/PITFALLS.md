@@ -379,16 +379,50 @@ Small issues that cause debugging time or minor UX problems with straightforward
 
 ---
 
-### Pitfall 16: SOAP Action Name and Namespace Case Sensitivity
+### Pitfall 16: SOAP Protocol Quirks — Undocumented Deviations from UPnP Specification
 
-**What goes wrong:** When writing raw Sonos UPnP SOAP calls, action names are case-sensitive. Sending `setvolume` instead of `SetVolume`, or getting the `SOAPAction` header namespace wrong, causes the speaker to return a HTTP 500 with an unhelpful body. This is a common debugging pitfall when first writing raw SOAP without the library wrapper.
+**What goes wrong:** Sonos's UPnP/SOAP implementation (port 1400) deviates from the UPnP specification in multiple undocumented ways. Hand-rolling SOAP envelopes without knowledge of these quirks — or trying to re-implement the transport layer from scratch — produces requests that either return HTTP 500 or silently succeed (HTTP 200) with no actual effect. These deviations are not documented by Sonos; they must be learned from community resources and the `node-sonos` source code.
+
+**Why it happens:** Sonos implemented their UPnP stack before the spec finalized, then froze the interface for backward compatibility. Developers working from the UPnP spec directly, rather than from working examples, encounter these deviations by trial and error.
+
+**Known Quirks:**
+
+1. **SOAP action name case-sensitivity:** Sending `setvolume` instead of `SetVolume`, or `play` instead of `Play`, returns HTTP 500. Action names must match the UPnP service description exactly — including capitalization. Never guess or normalize action names.
+
+2. **`SOAPAction` header must include surrounding quotes inside the header value:** The `SOAPAction` header must look like: `SOAPAction: "urn:schemas-upnp-org:service:AVTransport:1#Play"` — with literal double-quote characters *inside* the header value (not just around the full header value as is typical). Missing these embedded quotes causes rejection.
+
+3. **`InstanceID` must always be `0`:** The UPnP spec allows multiple transport instances. Sonos ignores any instance other than `0`. Passing `1` or any other value causes errors with no useful message.
+
+4. **DIDL-Lite metadata must be XML-escaped when embedded in a SOAP envelope:** The `CurrentURIMetaData` parameter in `SetAVTransportURI` must contain an XML-escaped DIDL-Lite string — that is, XML within XML. The inner DIDL-Lite must have all `<`, `>`, and `&` characters escaped as `&lt;`, `&gt;`, `&amp;`. Forgetting this causes the speaker to accept the command (HTTP 200) but not play. Double-escaping (escaping content that is already escaped) causes malformed metadata. This is the most common source of silent `SetAVTransportURI` failures.
+
+5. **Rincon namespace is required in DIDL-Lite metadata for some operations:** Sonos-specific content URIs (Spotify, Deezer, TuneIn via Sonos) require the `xmlns:r="urn:schemas-rinconnetworks-com:metadata-1-0/"` namespace declaration in DIDL-Lite. Missing it causes those content types to fail while plain HTTP streams work.
+
+6. **`RenderingControl` requires `Channel: "Master"` explicitly:** `GetVolume` and `SetVolume` require the `Channel` argument to be exactly the string `"Master"`. Omitting it or using a different value causes errors.
+
+7. **Service endpoint paths are fixed, not dynamically discovered:** Although UPnP advertises service descriptions at runtime, Sonos's paths are fixed:
+   - AVTransport: `http://[ip]:1400/MediaRenderer/AVTransport/Control`
+   - RenderingControl: `http://[ip]:1400/MediaRenderer/RenderingControl/Control`
+   - ZoneGroupTopology: `http://[ip]:1400/ZoneGroupTopology/Control`
+   - ContentDirectory: `http://[ip]:1400/MediaServer/ContentDirectory/Control`
+   Hardcoding these is standard practice in community tools.
+
+8. **HTTP response `Content-Type: text/xml; charset="utf-8"` with quoted charset:** Some XML parsers reject the quoted form of the charset value. `node-sonos` handles this; raw `xml2js` or `fast-xml-parser` implementations often fail silently on it.
+
+9. **S1 vs S2 firmware SOAP differences:** S1-generation speakers (Play:5 gen 1, ZonePlayers) handle some ContentDirectory Browse responses differently from S2. Metadata field names and album art URL patterns can differ. Regression-test against both generations if mixed hardware is present.
+
+**Warning Signs:**
+- `SetAVTransportURI` returns HTTP 200 but speaker does not play or change source
+- HTTP 500 with an opaque `UPnPError` body for a seemingly valid SOAP call
+- Commands work for one speaker but fail for another (firmware generation difference)
+- SOAP calls work in node-sonos but fail in the hand-rolled implementation
 
 **Prevention:**
-- Copy action names and namespace URIs verbatim from the UPnP service description XML retrieved from the speaker itself (`http://[speaker-ip]:1400/xml/device_description.xml` and linked service description XMLs)
-- Never guess or lowercase action names
-- Log the full SOAP request and response during development so errors are immediately visible
+- Use `node-sonos` or `@svrooij/sonos` as the SOAP transport layer — do not hand-roll SOAP envelopes. These libraries encode all of the above quirks.
+- If custom SOAP is necessary for a specific action, copy the envelope structure verbatim from the node-sonos source as the template.
+- Log the full raw SOAP request and response body at DEBUG level during development — "200 but no effect" failures are almost always DIDL-Lite or namespace related.
+- Test all SOAP operations against live speakers from Phase 1, not against mocks.
 
-**Phase to address:** Phase 1 (backend integration spike).
+**Phase to address:** Phase 1 (backend integration spike). These quirks are foundational — discovering them after Phase 2 or 3 invalidates assumptions built above the transport layer.
 
 ---
 
@@ -414,17 +448,76 @@ Small issues that cause debugging time or minor UX problems with straightforward
 
 ---
 
+### Pitfall 19: Network Topology — VLANs, Multicast Blocking, and AP Isolation
+
+**What goes wrong:** Many company office networks — including those with consumer-managed switches, prosumer APs (UniFi, Meraki, Ruckus), or any separation between a "media/IoT" network and the "staff" network — block or restrict the traffic that Sonos UPnP requires. The app cannot discover or communicate with speakers. The failure is network-layer and produces no errors in the application code — the speaker list is simply empty, or commands time out silently.
+
+**Why it happens:** This is the exact deployment context for this project (a company office). Developers build and test on home networks where everything is on one flat subnet. The office network has configuration the developer does not control and may not know about.
+
+**Specific failure modes by network configuration:**
+
+1. **AP client isolation ("wireless isolation"):** Enterprise APs commonly enable client isolation, which prevents devices on the same Wi-Fi SSID from communicating directly. The Node.js backend and Sonos speakers can each reach the internet but cannot reach each other. SSDP discovery returns nothing. All HTTP requests to port 1400 time out. The failure is silent — the same as if no speakers existed.
+   - *Most common in:* UniFi APs with the "Block LAN to WLAN Multicast and Broadcast Data" setting, Cisco Meraki with "Client isolation" on, any guest SSID.
+
+2. **VLAN separation:** IT places Sonos speakers on a dedicated IoT/media VLAN (e.g., `192.168.10.x`) for security. The backend server is on the staff VLAN (`192.168.1.x`). Inter-VLAN routing may not include rules permitting the required traffic. Even if the server can ping the speakers, the GENA callback traffic (speakers calling back to the server's port) may be blocked in the opposite direction.
+   - *Required firewall rules for UPnP:* `{server_IP}` → `{speaker_IPs}:1400/TCP` (SOAP commands) AND `{speaker_IPs}` → `{server_IP}:{gena_callback_port}/TCP` (event notifications).
+
+3. **IGMP snooping without a multicast proxy:** Managed switches use IGMP snooping to deliver multicast traffic only to ports that have joined the multicast group. If the backend server hasn't explicitly joined the `239.255.255.250` multicast group before sending M-SEARCH packets (or before the speakers' SSDP NOTIFY arrives), the switch may not forward those multicast packets to the server's port. SSDP appears to work but finds zero speakers.
+
+4. **mDNS/SSDP not forwarded across VLAN boundaries:** Multicast traffic (SSDP, mDNS) is link-local and is not routed between VLANs by default. An mDNS repeater (Avahi with SSDP proxy, or a dedicated Bonjour/SSDP gateway) is required to forward discovery traffic across VLANs. Without it, the only option is the static IP fallback.
+
+5. **Docker bridge networking:** Running the backend in a Docker container without `--network host` breaks SSDP reception (the container's virtual bridge interface does not receive multicast from the LAN) and GENA callbacks (speakers cannot POST to the container's bridge IP). The server appears to start cleanly but discovers zero speakers.
+
+6. **Windows Firewall on the server host:** Windows Firewall blocks inbound UDP 1900 (SSDP NOTIFY from speakers) by default unless a rule is created. The backend's SSDP M-SEARCH may go out, but the reply arrives on a different port and may also be blocked. The backend's GENA callback endpoint (TCP) may also be blocked inbound.
+
+**Warning Signs:**
+- `curl http://{speaker_ip}:1400/xml/device_description.xml` succeeds from the developer's laptop (same desk as speakers) but times out from the deployment server
+- Speakers are visible and controllable in the official Sonos app but not discovered by the backend
+- App works on wired ethernet connected to the same switch as the speakers, but not on Wi-Fi
+- IT has configured separate SSIDs for IoT/media devices and for staff computers
+- Office uses UniFi, Meraki, Ruckus, or Cisco enterprise AP/switch infrastructure
+- Backend is deployed in Docker without `--network host`
+- SSDP discovers speakers on the first run after a server restart but not on subsequent runs (SSDP timing + switch IGMP behavior)
+
+**Prevention Strategy:**
+
+1. **Day 0 network validation — before any code.** From the server host machine (not the developer's laptop), run:
+   ```
+   curl -v http://{speaker_ip}:1400/xml/device_description.xml
+   ```
+   If this times out or is refused, the network is blocking it. Resolve the network configuration before writing any application code.
+
+2. **Use static IP fallback as the production-default.** For a 2–5 zone static company installation, `SONOS_SPEAKER_IPS=192.168.x.x,...` in `.env` is the correct and resilient production approach. SSDP auto-discovery is a convenience for setup and development; it should not be relied upon as the only path.
+
+3. **Deploy the backend on the same VLAN as the speakers.** If speakers are on an IoT VLAN, put a dedicated server (Raspberry Pi, NUC, VM) on that VLAN and run the Node.js backend there. Browser clients on the staff VLAN reach the backend over a normal HTTP endpoint. The backend reaches the speakers over UPnP on the same broadcast domain. No inter-VLAN firewall rules needed.
+
+4. **The GENA callback IP must be the server's actual LAN IP.** Not `127.0.0.1`. Not a Docker bridge IP. Not a hostname the speakers cannot resolve. Use the server's IP address as seen from the speakers' subnet when constructing the `CALLBACK` header in SUBSCRIBE requests.
+
+5. **Use wired ethernet for the backend server.** AP client isolation does not apply to wired ports. A wired server in the same VLAN as the speakers bypasses all wireless isolation issues.
+
+6. **Provide IT with a one-page network requirements document early.** IT can add specific firewall rules between VLANs without merging them. The requirements are small and justified:
+   - `{server_IP}:any` → `{speaker_IPs}:1400/TCP` — allow (SOAP commands to speakers)
+   - `{speaker_IPs}:any` → `{server_IP}:{gena_port}/TCP` — allow (speakers posting events to backend)
+   - Multicast `239.255.255.250:1900/UDP` — allow forwarding between the server's subnet and speakers' subnet (only if SSDP auto-discovery is needed; not required with static IP fallback)
+
+7. **Docker deployments: use `--network host` or bridge the SSDP listener to the host interface.** Document this requirement in the deployment guide. Alternatively, disable SSDP in production and rely entirely on the static IP fallback.
+
+**Phase to address:** Phase 1 — Day 0, before any development. Network topology is a pre-development blocker. Discovering this issue in Phase 2 when implementing GENA subscriptions costs the most time because developers diagnose code before realizing the issue is network infrastructure.
+
+---
+
 ## Phase-Specific Warnings
 
 | Phase Topic | Likely Pitfall | Mitigation |
 |-------------|---------------|------------|
+| Phase 1: Day 0 (pre-code) | Network topology blocks UPnP — VLANs, AP isolation, multicast filtering | `curl http://{speaker_ip}:1400/xml/...` from server; implement static IP fallback (Pitfall 19) |
 | Phase 1: API/protocol selection | Choosing node-sonos (UPnP/SOAP) without verifying it against current firmware | Run live spike against real speaker before committing (Pitfall 1) |
 | Phase 1: Network discovery | SSDP multicast blocked on office managed-switch VLANs | Implement `SONOS_SPEAKER_IPS` env-var fallback from day one (Pitfall 2) |
 | Phase 1: API client | TLS cert verification disabled globally | Scoped HTTPS agent per-request, never global env var (Pitfall 3) |
 | Phase 1: Data model | Zone group membership ignored; commands to wrong speaker | Parse ZoneGroupTopology / `groups` API immediately (Pitfall 4) |
 | Phase 1: Architecture | Browser calling speaker IP directly, CORS errors | Proxy-first architecture — no direct browser-to-speaker calls (Pitfall 14) |
 | Phase 1: Authentication | PIN brute-forceable with no rate limiting | Add rate limiting in auth middleware from first sprint (Pitfall 15) |
-| Phase 1: SOAP (if used) | Action name case-sensitivity causes silent 500 errors | Copy action names from device description XML (Pitfall 16) |
+| Phase 1: SOAP transport | Full SOAP quirks: DIDL-Lite escaping, namespace deviations, InstanceID=0 | Use node-sonos or @svrooij/sonos as transport; log raw XML at DEBUG level (Pitfall 16) |
 | Phase 2: State sync | Polling too slow or UPnP subscription expiring silently | 2-3s server-side poll for MVP; subscription renewal at 80% timeout (Pitfall 5) |
 | Phase 2: Metadata | DIDL-Lite parsing breaks per service type | Per-service fixture-tested parser module (Pitfall 7) |
 | Phase 2: Volume | Slider events flood speaker; out-of-order processing | Debounce 150-200ms from first implementation (Pitfall 8) |
@@ -432,7 +525,7 @@ Small issues that cause debugging time or minor UX problems with straightforward
 | Phase 2: Album art | Speaker-served image URLs fail from different VLAN/subnet | Proxy all album art through backend `/api/art` endpoint (Pitfall 10) |
 | Phase 2: Now playing | Metadata undefined for line-in / idle state | Optional-chain every field; graceful fallback display (Pitfall 17) |
 | Phase 2/3: Real-time sync | Reconnect shows stale state; no snapshot on reconnect | Send full state snapshot on every connection (Pitfall 12) |
-| Phase 3: Source switching | Oauth for Spotify/Deezer mistakenly built | Document clearly: local API, no OAuth needed for playback (Pitfall 6) |
+| Phase 3: Source switching | OAuth for Spotify/Deezer mistakenly built — it's not needed | Document clearly: local API, no OAuth needed for playback (Pitfall 6) |
 | Ongoing | Firmware update silently breaks parsing | Centralize all SOAP/metadata parsing; log firmware version at startup (Pitfall 11) |
 
 ---
@@ -486,17 +579,28 @@ The following must be verified before implementation:
 | Claim | Confidence | Verification Action |
 |-------|------------|---------------------|
 | node-sonos maintenance / last commit | MEDIUM | Check github.com/bencevans/node-sonos — last commit date and open firmware issues |
+| @svrooij/sonos as active maintained alternative | MEDIUM | Check github.com/svrooij/node-sonos-ts — last commit and npm publish date |
 | Local Control API on port 1443 / WebSocket namespace list | MEDIUM | Verify at developer.sonos.com |
 | S2 speaker incompatibility with node-sonos | MEDIUM | Check node-sonos GitHub issues for S2 reports |
-| Spotify refresh token rotation (2024) | MEDIUM | Check developer.spotify.com/changelog |
-| SSDP multicast blocked on managed switches | HIGH | Standard networking behavior, well-documented |
+| Spotify/Deezer work via Sonos-managed tokens, not app OAuth | HIGH | Core Sonos architecture; confirmed by node-sonos-http-api documentation and SMAPI spec |
+| Sonos Favorites object ID `FV:2` in ContentDirectory | MEDIUM | Verify with a live ContentDirectory Browse call during Phase 1 spike |
+| SSDP multicast blocked on managed switches | HIGH | Standard networking behavior, well-documented in UniFi/Meraki documentation |
+| AP client isolation blocking device-to-device UDP/TCP | HIGH | Standard enterprise Wi-Fi feature, widely documented |
+| VLAN separation requires explicit inter-VLAN firewall rules | HIGH | Standard network engineering; not Sonos-specific |
 | CORS blocked for direct browser-to-speaker calls | HIGH | Standard browser security model |
-| UPnP subscription default timeout 1800 seconds | MEDIUM | Verify in Sonos UPnP service description XML |
-| DIDL-Lite format per-service differences | MEDIUM | Verify by capturing live responses from Spotify, Deezer, TuneIn |
+| UPnP subscription default timeout 1800 seconds | MEDIUM | Verify in Sonos UPnP service description XML (`/xml/device_description.xml`) |
+| SOAP `SOAPAction` header requires embedded double quotes | HIGH | Well-documented in community Sonos UPnP resources; consistent in node-sonos source |
+| DIDL-Lite must be XML-escaped when embedded in SOAP envelope | HIGH | Standard XML-within-XML requirement; confirmed by node-sonos source patterns |
+| `InstanceID` must be `0` for Sonos SOAP calls | HIGH | Documented in node-sonos source; consistent across all community implementations |
+| DIDL-Lite format per-service differences | MEDIUM | Verify by capturing live responses from Spotify, Deezer, TuneIn in Phase 1 |
+| Docker bridge networking breaks SSDP multicast | HIGH | Standard Docker networking behavior; well-documented |
+| GENA callback URL must be server's LAN IP | HIGH | Required by UPnP GENA spec; confirmed by node-sonos-http-api deployment notes |
 
 **Recommended verification URLs:**
 - https://developer.sonos.com — official Sonos developer documentation
 - https://github.com/bencevans/node-sonos — maintenance status and open issues
+- https://github.com/svrooij/node-sonos-ts — @svrooij/sonos fork; active alternative
+- https://github.com/jishi/node-sonos-http-api — reference implementation for backend proxy pattern
 - https://developer.spotify.com/changelog — Spotify API changes
 - https://developers.deezer.com/api — Deezer rate limits and OAuth
 - https://community.sonos.com — practitioner reports of API changes
@@ -504,3 +608,4 @@ The following must be verified before implementation:
 **Cross-referenced with:**
 - `C:/Users/Admin/WebstormProjects/.planning/PROJECT.md`
 - `C:/Users/Admin/WebstormProjects/.planning/research/FEATURES.md`
+- `C:/Users/Admin/WebstormProjects/.planning/research/ARCHITECTURE.md`
