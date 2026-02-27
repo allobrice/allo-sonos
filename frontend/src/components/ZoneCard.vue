@@ -1,12 +1,40 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { ZoneState } from '@/stores/zones'
+import { useZonesStore } from '@/stores/zones'
 
 const props = defineProps<{ zone: ZoneState }>()
+
+const store = useZonesStore()
 
 const isPlaying = computed(() => props.zone.playState === 'PLAYING')
 const isOffline = computed(() => !props.zone.reachable)
 const isActive = computed(() => isPlaying.value && !isOffline.value)
+
+const busy = ref(false)
+
+function withDebounce(fn: () => void) {
+  if (busy.value) return
+  busy.value = true
+  fn()
+  setTimeout(() => {
+    busy.value = false
+  }, 300)
+}
+
+function handlePlayPause() {
+  withDebounce(() =>
+    isPlaying.value ? store.sendPause(props.zone.uuid) : store.sendPlay(props.zone.uuid),
+  )
+}
+
+function handleNext() {
+  withDebounce(() => store.sendNext(props.zone.uuid))
+}
+
+function handlePrevious() {
+  withDebounce(() => store.sendPrevious(props.zone.uuid))
+}
 
 function sourceLabel(source: string | null): string {
   switch (source) {
@@ -128,6 +156,49 @@ function sourceLabel(source: string | null): string {
         </div>
       </template>
     </div>
+
+    <!-- Transport controls: visible for all online zones -->
+    <div class="transport-controls" v-if="!isOffline">
+      <button
+        class="transport-btn"
+        @click="handlePrevious"
+        :disabled="busy"
+        aria-label="Morceau précédent"
+      >
+        <!-- Skip previous: bar + triangle -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
+        </svg>
+      </button>
+
+      <button
+        class="transport-btn transport-btn--main"
+        @click="handlePlayPause"
+        :disabled="busy"
+        :aria-label="isPlaying ? 'Pause' : 'Lecture'"
+      >
+        <!-- Play icon -->
+        <svg v-if="!isPlaying" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        <!-- Pause icon -->
+        <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+      </button>
+
+      <button
+        class="transport-btn"
+        @click="handleNext"
+        :disabled="busy"
+        aria-label="Morceau suivant"
+      >
+        <!-- Skip next: triangle + bar -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -248,5 +319,46 @@ function sourceLabel(source: string | null): string {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+}
+
+/* Transport controls */
+.transport-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+}
+
+.transport-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  /* Touch target minimum 44px per accessibility guidelines */
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.transport-btn:active {
+  opacity: 0.6;
+}
+
+.transport-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.transport-btn--main {
+  /* Larger play/pause button for visual hierarchy */
+  min-width: 48px;
+  min-height: 48px;
 }
 </style>
