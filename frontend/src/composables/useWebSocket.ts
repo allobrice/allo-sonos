@@ -1,6 +1,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
-export function useWebSocket() {
+export function useWebSocket(onMessage?: (event: string, data: unknown) => void) {
   const connected = ref(false)
   let ws: WebSocket | null = null
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null
@@ -13,6 +13,15 @@ export function useWebSocket() {
     ws.onopen = () => {
       connected.value = true
       reconnectDelay = 1000 // reset on successful connect
+    }
+
+    ws.onmessage = (msg) => {
+      try {
+        const { event, data } = JSON.parse(msg.data)
+        onMessage?.(event, data)
+      } catch {
+        // ignore malformed messages
+      }
     }
 
     ws.onclose = () => {
