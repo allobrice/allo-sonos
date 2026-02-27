@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Playback
 
-- [ ] **PLAY-01**: User can play/pause the current track on any zone
-- [ ] **PLAY-02**: User can adjust volume per zone via a slider
-- [ ] **PLAY-03**: User can mute/unmute any zone
-- [ ] **PLAY-04**: User can skip to next/previous track on any zone
+- [x] **PLAY-01**: User can play/pause the current track on any zone
+- [x] **PLAY-02**: User can adjust volume per zone via a slider
+- [x] **PLAY-03**: User can mute/unmute any zone
+- [x] **PLAY-04**: User can skip to next/previous track on any zone
 
 ### Zones
 
@@ -71,10 +71,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | INFRA-04 | Phase 1 | Complete |
-| PLAY-01 | Phase 2 | Pending |
-| PLAY-02 | Phase 2 | Pending |
-| PLAY-03 | Phase 2 | Pending |
-| PLAY-04 | Phase 2 | Pending |
+| PLAY-01 | Phase 2 | Complete |
+| PLAY-02 | Phase 2 | Complete |
+| PLAY-03 | Phase 2 | Complete |
+| PLAY-04 | Phase 2 | Complete |
 | INFRA-03 | Phase 3 | Pending |
 | INFRA-01 | Phase 4 | Pending |
 | INFRA-02 | Phase 4 | Pending |
