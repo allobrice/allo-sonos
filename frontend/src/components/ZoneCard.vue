@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { ZoneState } from '@/stores/zones'
 import { useZonesStore } from '@/stores/zones'
 
@@ -49,6 +49,68 @@ function sourceLabel(source: string | null): string {
     default:
       return 'Unknown source'
   }
+}
+
+// Volume slider state
+const localVolume = ref(props.zone.volume)
+const dragging = ref(false)
+
+// Sync slider with WebSocket updates when not dragging
+watch(
+  () => props.zone.volume,
+  (newVolume) => {
+    if (!dragging.value) {
+      localVolume.value = newVolume
+    }
+  },
+)
+
+// Speaker icon computed based on mute state and volume level
+const speakerIconPath = computed(() => {
+  if (props.zone.muted || localVolume.value <= 0) {
+    // Muted: speaker with X
+    return 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'
+  } else if (localVolume.value <= 33) {
+    // Low: speaker with one wave
+    return 'M7 9v6h4l5 5V4l-5 5H7z'
+  } else if (localVolume.value <= 66) {
+    // Medium: speaker with two waves
+    return 'M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z'
+  } else {
+    // High: speaker with three waves
+    return 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'
+  }
+})
+
+// Debounce timer for volume API calls during drag
+let volumeDebounceTimer: ReturnType<typeof setTimeout> | null = null
+
+function handleVolumeInput(e: Event) {
+  dragging.value = true
+  localVolume.value = Number((e.target as HTMLInputElement).value)
+  // Debounced API call — clear previous timer and set new one
+  if (volumeDebounceTimer !== null) {
+    clearTimeout(volumeDebounceTimer)
+  }
+  volumeDebounceTimer = setTimeout(() => {
+    store.sendVolume(props.zone.uuid, localVolume.value)
+  }, 250)
+}
+
+function handleVolumeCommit(e: Event) {
+  dragging.value = false
+  // Clear any pending debounce and send immediately on release
+  if (volumeDebounceTimer !== null) {
+    clearTimeout(volumeDebounceTimer)
+    volumeDebounceTimer = null
+  }
+  store.sendVolume(props.zone.uuid, Number((e.target as HTMLInputElement).value))
+}
+
+function handleMuteToggle() {
+  withDebounce(() =>
+    props.zone.muted ? store.sendUnmute(props.zone.uuid) : store.sendMute(props.zone.uuid),
+  )
 }
 </script>
 
@@ -198,6 +260,31 @@ function sourceLabel(source: string | null): string {
           <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
         </svg>
       </button>
+    </div>
+
+    <!-- Volume row: mute toggle + volume slider, hidden for offline zones -->
+    <div class="volume-row" v-if="!isOffline">
+      <button
+        class="mute-btn"
+        @click="handleMuteToggle"
+        :aria-label="zone.muted ? 'Réactiver le son' : 'Couper le son'"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path :d="speakerIconPath" />
+        </svg>
+      </button>
+
+      <input
+        type="range"
+        class="volume-slider"
+        min="0"
+        max="100"
+        :value="localVolume"
+        @input="handleVolumeInput"
+        @change="handleVolumeCommit"
+        aria-label="Volume"
+        :style="{ background: `linear-gradient(to right, var(--color-accent-green) ${localVolume}%, var(--color-border) ${localVolume}%)` }"
+      />
     </div>
   </div>
 </template>
@@ -360,5 +447,85 @@ function sourceLabel(source: string | null): string {
   /* Larger play/pause button for visual hierarchy */
   min-width: 48px;
   min-height: 48px;
+}
+
+/* Volume row */
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-xs);
+}
+
+.mute-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--space-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.mute-btn:active {
+  opacity: 0.6;
+}
+
+/* Volume slider — clean Spotify-like range input */
+.volume-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border);
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-text-primary);
+  cursor: pointer;
+  margin-top: -5.5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border);
+}
+
+.volume-slider::-moz-range-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-accent-green);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-text-primary);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 </style>
