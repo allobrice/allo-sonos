@@ -31,16 +31,16 @@ async function handleSubmit(pin: string) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 100vh;
   min-height: 100dvh;
-  padding: 16px;
-  background: var(--color-background, #121212);
+  padding: var(--space-md);
+  background: var(--color-bg);
 }
 
 .pin-title {
-  color: var(--color-text-primary, #f5f5f5);
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xl);
 }
 </style>

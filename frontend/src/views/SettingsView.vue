@@ -22,31 +22,34 @@ async function handleLogout() {
 
 <style scoped>
 .settings-view {
-  padding: 24px;
-  color: var(--color-text-primary, #f5f5f5);
+  padding: var(--space-lg) 0;
+  color: var(--color-text-primary);
+  min-height: 100%;
 }
 
 .settings-title {
-  font-size: 1.25rem;
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-lg);
 }
 
 .settings-section {
-  margin-top: 1rem;
+  margin-top: var(--space-md);
 }
 
 /* Discreet logout button — not prominent per user decision */
 .logout-btn {
+  color: var(--color-accent-pink);
   background: transparent;
-  border: 1px solid var(--color-border, #2c2c2e);
-  color: var(--color-text-secondary, #8e8e93);
-  font-size: 0.875rem;
-  padding: 8px 16px;
-  border-radius: var(--radius-md, 8px);
-  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-base);
   font-family: inherit;
+  cursor: pointer;
   transition: opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
 }
 
 .logout-btn:hover {

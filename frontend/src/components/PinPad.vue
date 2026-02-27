@@ -42,8 +42,8 @@ defineExpose({ setError })
       />
     </div>
 
-    <!-- Error message -->
-    <p v-if="error" class="error-msg" role="alert">{{ error }}</p>
+    <!-- Error message — min-height prevents layout shift -->
+    <p class="error-msg" role="alert">{{ error }}</p>
 
     <!-- Numeric keypad: digicode layout (1-9 in 3x3, then empty/0/delete) -->
     <div class="keypad" role="group" aria-label="PIN keypad">
@@ -77,7 +77,7 @@ defineExpose({ setError })
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   width: 100%;
   max-width: 280px;
 }
@@ -85,27 +85,27 @@ defineExpose({ setError })
 /* Dots row */
 .dots-row {
   display: flex;
-  gap: 16px;
+  gap: var(--space-md);
   justify-content: center;
 }
 
 .dot {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: var(--color-text-secondary, #8e8e93);
+  background: var(--color-border);
   transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .dot.filled {
-  background: var(--color-accent-green, #30d158);
+  background: var(--color-accent-green);
   transform: scale(1.1);
 }
 
-/* Error message */
+/* Error message — always renders to prevent layout shift */
 .error-msg {
-  color: var(--color-accent-pink, #ff375f);
-  font-size: 0.875rem;
+  color: var(--color-accent-pink);
+  font-size: var(--font-size-sm);
   text-align: center;
   margin: 0;
   min-height: 1.25rem;
@@ -115,40 +115,40 @@ defineExpose({ setError })
 .keypad {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: var(--space-sm);
   width: 100%;
 }
 
 .key-btn {
-  min-width: 64px;
-  min-height: 64px;
-  border-radius: var(--radius-md, 8px);
+  min-width: 72px;
+  min-height: 56px;
+  border-radius: var(--radius-md);
   font-size: 1.5rem;
   font-weight: 500;
   font-family: inherit;
-  background: var(--color-surface, #1c1c1e);
-  color: var(--color-text-primary, #f5f5f5);
-  border: 1px solid var(--color-border, #2c2c2e);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.1s ease;
+  transition: background 0.1s ease;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
 
 .key-btn:active {
-  opacity: 0.6;
+  background: var(--color-border);
 }
 
 .key-delete {
   font-size: 1rem;
-  color: var(--color-text-secondary, #8e8e93);
+  color: var(--color-text-secondary);
 }
 
 .key-empty {
-  min-width: 64px;
-  min-height: 64px;
+  min-width: 72px;
+  min-height: 56px;
 }
 </style>
