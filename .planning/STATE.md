@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: Zone Dashboard
 status: unknown
-last_updated: "2026-02-27T18:27:15.333Z"
+last_updated: "2026-02-27T18:31:22.649Z"
 progress:
   total_phases: 2
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
 ---
 
 ---
@@ -49,28 +49,29 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 6 of 6 (Playback Controls)
-Plan: 1 of 2 in current phase — Plan 1 complete
-Status: In progress
-Last activity: 2026-02-27 — Completed 06-01: Transport Controls (play/pause, skip prev, skip next) on ZoneCard with optimistic UI
+Plan: 2 of 2 in current phase — Plan 2 complete (Phase COMPLETE)
+Status: Complete
+Last activity: 2026-02-27 — Completed 06-02: Volume slider and mute toggle on ZoneCard (CTRL-03, CTRL-04)
 
-Progress: [███░░░░░░░] 62%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3 (v1.1)
-- Average duration: 61s
-- Total execution time: 4min 22s
+- Total plans completed: 4 (v1.1)
+- Average duration: 71s
+- Total execution time: 6min 22s
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 5. Zone Display | 2/2 | 2min 22s | 71s |
-| 6. Playback Controls | 1/2 | 2min | 2min |
+| 6. Playback Controls | 2/2 | 4min | 2min |
 
-**Recent Trend:** 3 plans completed today
+**Recent Trend:** 4 plans completed today
 | Phase 06-playback-controls P01 | 2 | 2 tasks | 2 files |
+| Phase 06-playback-controls P02 | 120 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,8 @@ Recent decisions affecting current work:
 - 06-01: sendNext/sendPrevious apply no optimistic playState — track info arrives async via WebSocket state_changed
 - 06-01: 300ms busy ref debounce on transport buttons prevents duplicate API commands on rapid taps
 - [Phase 06-01]: Transport controls shown for all online zones (both playing and idle) — controls always accessible
+- [Phase 06-02]: localVolume ref decoupled from store — prevents jarring jumps during drag, WebSocket sync gated by dragging ref
+- [Phase 06-02]: Dual-event volume: @input debounced 250ms during drag, @change immediate send on release
 
 ### Pending Todos
 
@@ -102,5 +105,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 06-01-PLAN.md — Transport Controls (play/pause, skip prev, skip next)
+Stopped at: Completed 06-02-PLAN.md — Volume and Mute Controls (volume slider, mute toggle with speaker icon states)
 Resume file: None
