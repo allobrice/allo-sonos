@@ -4,80 +4,32 @@
 
 Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend qui parle aux enceintes, ensuite les commandes de lecture, puis la synchronisation temps réel, puis le shell sécurisé de l'application, et enfin le tableau de bord complet des zones. Chaque phase livre une capacité vérifiable qui débloque la suivante.
 
+## Milestones
+
+- ✅ **v1.0 Sonos Pilot** — Phases 1-4 (shipped 2026-02-27)
+- 📋 **v1.1** — Phase 5 (planned)
+
 ## Phases
 
 **Phase Numbering:**
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-Decimal phases appear between their surrounding integers in numeric order.
+<details>
+<summary>✅ v1.0 Sonos Pilot (Phases 1-4) — SHIPPED 2026-02-27</summary>
 
-- [x] **Phase 1: Backend Foundation** - Backend Fastify opérationnel, découverte SSDP des enceintes, registre des speakers (completed 2026-02-26)
-- [ ] **Phase 2: Playback Commands** - Contrôles de lecture complets (play/pause, volume, mute, skip) via REST API
-- [x] **Phase 3: Real-time State Sync** - Cache d'état, souscriptions GENA/UPnP, push WebSocket vers le navigateur (completed 2026-02-27)
-- [x] **Phase 4: App Shell + PIN Auth** - Application Vue protégée par PIN, layout responsive mobile-first (Plan 01 complete 2026-02-27) (completed 2026-02-27)
-- [ ] **Phase 5: Zone Dashboard** - Tableau de bord des zones avec état, now playing, et indicateur de source
+- [x] **Phase 1: Backend Foundation** — Backend Fastify, SSDP discovery, speaker registry (2/2 plans) — completed 2026-02-26
+- [x] **Phase 2: Playback Commands** — 8 REST endpoints play/pause/volume/mute/skip (1/1 plan) — completed 2026-02-27
+- [x] **Phase 3: Real-time State Sync** — GENA/UPnP → StateCache → WebSocket broadcast (2/2 plans) — completed 2026-02-27
+- [x] **Phase 4: App Shell + PIN Auth** — Vue 3 SPA, PIN auth, responsive dark theme (2/2 plans) — completed 2026-02-27
 
-## Phase Details
+**Archive:** `.planning/milestones/v1.0-ROADMAP.md`
 
-### Phase 1: Backend Foundation
-**Goal**: Le backend Node.js tourne, découvre les enceintes Sonos sur le réseau local, et peut envoyer une commande basique
-**Depends on**: Nothing (first phase)
-**Requirements**: INFRA-04
-**Success Criteria** (what must be TRUE):
-  1. The backend starts and logs discovered Sonos speakers on the local network
-  2. A discovered speaker can be commanded (e.g., pause) via a direct API call and the speaker responds
-  3. If SSDP discovery fails, the backend accepts a manually configured IP and treats it as a valid speaker
-  4. The backend correctly identifies the coordinator of a zone group so commands reach the right speaker
-**Plans**: 2 plans
+</details>
 
-Plans:
-- [ ] 01-01-PLAN.md — Project scaffold + Fastify server + Docker setup + Sonos library spike
-- [ ] 01-02-PLAN.md — SSDP discovery service + manual IP fallback + speaker registry + REST endpoints
+### 📋 Next (Planned)
 
-### Phase 2: Playback Commands
-**Goal**: Every transport control (play, pause, volume, mute, skip) is available and works on any discovered zone via the API
-**Depends on**: Phase 1
-**Requirements**: PLAY-01, PLAY-02, PLAY-03, PLAY-04
-**Success Criteria** (what must be TRUE):
-  1. Sending a play or pause command to a zone via the API starts or stops playback on that speaker
-  2. Adjusting volume via the API changes the speaker volume immediately
-  3. Muting and unmuting a zone via the API silences and restores audio
-  4. Sending a next or previous command via the API skips to the next or previous track
-**Plans**: 1 plan
-
-Plans:
-- [ ] 02-01-PLAN.md — SOAP service extraction + state reading + 8 dedicated REST endpoints (play, pause, next, previous, volume, mute, unmute, state)
-
-### Phase 3: Real-time State Sync
-**Goal**: The UI can always show the current state of every zone, even when changes are made from another controller (Sonos app, voice assistant, etc.)
-**Depends on**: Phase 2
-**Requirements**: INFRA-03
-**Success Criteria** (what must be TRUE):
-  1. When a track changes on a speaker (triggered by the Sonos app), the backend detects it within 2 seconds
-  2. When the backend detects a state change, it pushes an update to all connected browser clients via WebSocket
-  3. UPnP subscriptions are renewed before expiry so the backend never silently loses updates
-  4. A browser client that reconnects after a disconnect immediately receives the current state
-**Plans**: TBD
-
-Plans:
-- [ ] 03-01: State cache + GENA/UPnP event subscriptions with auto-renewal
-- [ ] 03-02: WebSocket server + broadcast on state change + client reconnect handling
-
-### Phase 4: App Shell + PIN Auth
-**Goal**: The web app is accessible in any browser, protected by a PIN, and usable on both mobile and desktop
-**Depends on**: Phase 3
-**Requirements**: INFRA-01, INFRA-02
-**Success Criteria** (what must be TRUE):
-  1. A user visiting the app for the first time sees a PIN entry screen before any content
-  2. Entering the correct PIN grants access and persists the session so the user is not asked again on the same browser
-  3. The app layout works correctly on a phone screen (375px wide) and a desktop browser without horizontal scrolling
-  4. All interactive controls are usable by touch on mobile (tap targets meet minimum size)
-**Plans**: TBD
-
-Plans:
-- [x] 04-01: Vue 3 + Vite project scaffold + routing + PIN auth gate + session persistence (completed 2026-02-27)
-- [ ] 04-02: Responsive layout system + mobile-first CSS + design tokens
+- [ ] **Phase 5: Zone Dashboard** — Tableau de bord des zones avec état, now playing, et indicateur de source
 
 ### Phase 5: Zone Dashboard
 **Goal**: Users can see all zones at a glance, know what is playing in each, and control any zone directly from the dashboard
@@ -100,10 +52,10 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Backend Foundation | 2/2 | Complete    | 2026-02-26 |
-| 2. Playback Commands | 0/1 | Not started | - |
-| 3. Real-time State Sync | 2/2 | Complete   | 2026-02-27 |
-| 4. App Shell + PIN Auth | 2/2 | Complete   | 2026-02-27 |
-| 5. Zone Dashboard | 0/2 | Not started | - |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Backend Foundation | v1.0 | 2/2 | Complete | 2026-02-26 |
+| 2. Playback Commands | v1.0 | 1/1 | Complete | 2026-02-27 |
+| 3. Real-time State Sync | v1.0 | 2/2 | Complete | 2026-02-27 |
+| 4. App Shell + PIN Auth | v1.0 | 2/2 | Complete | 2026-02-27 |
+| 5. Zone Dashboard | v1.1 | 0/2 | Not started | - |
