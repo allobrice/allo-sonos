@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-last_updated: "2026-02-27T16:37:21Z"
+last_updated: "2026-02-27T17:00:00Z"
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
 ---
 
 # Project State
@@ -18,23 +18,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
-**Current focus:** Phase 4 Plan 02 complete — app shell layout, design tokens, WebSocket indicator
+**Current focus:** Phase 4 complete — ready for Phase 5 zone dashboard
 
 ## Current Position
 
-Phase: 4 of 5 (App Shell + PIN Auth) — Plan 02 complete (awaiting human verification checkpoint)
-Plan: 2 of 2 in phase 04
-Status: Phase 4 Plan 02 auto tasks complete — at human-verify checkpoint for visual/functional validation
-Last activity: 2026-02-27 — CSS design tokens, AppHeader, AppNav, useWebSocket, App.vue shell layout
+Phase: 4 of 5 (App Shell + PIN Auth) — COMPLETE
+Plan: Phase 04 fully complete (2/2 plans done)
+Status: Phase 4 complete — human-verify checkpoint approved, all plans delivered
+Last activity: 2026-02-27 — human-verify checkpoint approved for app shell visual/functional validation
 
-Progress: [█████████░] 88%
+Progress: [█████████░] 95%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: ~15 min
-- Total execution time: ~102 min
+- Total plans completed: 8
+- Average duration: ~13 min
+- Total execution time: ~107 min
 
 **By Phase:**
 
@@ -43,10 +43,10 @@ Progress: [█████████░] 88%
 | 01-backend-foundation | 2 | 55 min | 27.5 min |
 | 02-playback-commands | 1 | 3 min | 3 min |
 | 03-real-time-state-sync | 2 | 20 min | 10 min |
-| 04-app-shell-pin-auth | 2 | 5 min | 2.5 min |
+| 04-app-shell-pin-auth | 2 | 8 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 10 min, 3 min, 8 min, 12 min, 3 min, 2 min
+- Last 5 plans: 10 min, 3 min, 8 min, 12 min, 3 min, 5 min
 - Trend: Fast
 
 *Updated after each plan completion*
@@ -59,7 +59,7 @@ Progress: [█████████░] 88%
 | Phase 03-real-time-state-sync P01 | 8 min | 2 tasks | 5 files |
 | Phase 03-real-time-state-sync P02 | 12 min | 2 tasks | 4 files |
 | Phase 04-app-shell-pin-auth P01 | 3 min | 2 tasks | 20 files |
-| Phase 04-app-shell-pin-auth P02 | 2 min | 2 tasks | 10 files |
+| Phase 04-app-shell-pin-auth P02 | 5 min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -111,5 +111,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 04-02 auto tasks — at checkpoint:human-verify for visual/functional app shell validation. Start backend + frontend dev servers to verify.
-Resume file: .planning/phases/04-app-shell-pin-auth/04-02-SUMMARY.md
+Stopped at: Completed Phase 04 — both plans complete, human-verify approved. Ready for Phase 05 zone dashboard.
+Resume file: .planning/phases/05-zone-dashboard/ (next phase)
