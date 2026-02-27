@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Backend Foundation** - Backend Fastify opérationnel, découverte SSDP des enceintes, registre des speakers (completed 2026-02-26)
 - [ ] **Phase 2: Playback Commands** - Contrôles de lecture complets (play/pause, volume, mute, skip) via REST API
 - [x] **Phase 3: Real-time State Sync** - Cache d'état, souscriptions GENA/UPnP, push WebSocket vers le navigateur (completed 2026-02-27)
-- [ ] **Phase 4: App Shell + PIN Auth** - Application Vue protégée par PIN, layout responsive mobile-first
+- [ ] **Phase 4: App Shell + PIN Auth** - Application Vue protégée par PIN, layout responsive mobile-first (Plan 01 complete 2026-02-27)
 - [ ] **Phase 5: Zone Dashboard** - Tableau de bord des zones avec état, now playing, et indicateur de source
 
 ## Phase Details
@@ -76,7 +76,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 04-01: Vue 3 + Vite project scaffold + routing + PIN auth gate + session persistence
+- [x] 04-01: Vue 3 + Vite project scaffold + routing + PIN auth gate + session persistence (completed 2026-02-27)
 - [ ] 04-02: Responsive layout system + mobile-first CSS + design tokens
 
 ### Phase 5: Zone Dashboard
@@ -105,5 +105,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Backend Foundation | 2/2 | Complete    | 2026-02-26 |
 | 2. Playback Commands | 0/1 | Not started | - |
 | 3. Real-time State Sync | 2/2 | Complete   | 2026-02-27 |
-| 4. App Shell + PIN Auth | 0/2 | Not started | - |
+| 4. App Shell + PIN Auth | 1/2 | In progress | - |
 | 5. Zone Dashboard | 0/2 | Not started | - |

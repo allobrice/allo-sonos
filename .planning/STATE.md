@@ -2,65 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-02-27T15:49:08.862Z"
+status: in_progress
+last_updated: "2026-02-27T16:32:00Z"
 progress:
-  total_phases: 3
+  total_phases: 5
   completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
----
-
----
-gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: in_progress
-last_updated: "2026-02-27T15:44:10Z"
-progress:
-  total_phases: 3
-  completed_phases: 2
-  total_plans: 6
-  completed_plans: 5
----
-
----
-gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: unknown
-last_updated: "2026-02-27T14:44:56.381Z"
-progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
----
-
----
-gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: unknown
-last_updated: "2026-02-26T16:13:56.346Z"
-progress:
-  total_phases: 1
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
----
-
----
-gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: in_progress
-last_updated: "2026-02-26T15:55:34.162Z"
-progress:
-  total_phases: 1
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 8
+  completed_plans: 6
 ---
 
 # Project State
@@ -70,33 +18,36 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
-**Current focus:** Phase 1 complete — ready for Phase 2
+**Current focus:** Phase 4 Plan 01 complete — PIN auth gate and Vue 3 frontend scaffold
 
 ## Current Position
 
-Phase: 3 of 5 (Real-time State Sync) — Plan 02 complete (Phase 03 COMPLETE)
-Plan: 2 of 2 in phase 03
-Status: Phase 3 Plan 02 Complete — ready for Phase 4
-Last activity: 2026-02-27 — GENA plugin wires Sonos events to state cache and WebSocket broadcast
+Phase: 4 of 5 (App Shell + PIN Auth) — Plan 01 complete
+Plan: 1 of 2 in phase 04
+Status: Phase 4 Plan 01 Complete — ready for Plan 04-02 (App Shell Layout + Design Tokens)
+Last activity: 2026-02-27 — Vue 3 SPA with PIN auth gate, Pinia store, router guard, PinPad component
 
-Progress: [██████░░░░] 70%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 27.5 min
-- Total execution time: ~55 min
+- Total plans completed: 6
+- Average duration: ~17 min
+- Total execution time: ~100 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-backend-foundation | 2 | 55 min | 27.5 min |
+| 02-playback-commands | 1 | 3 min | 3 min |
+| 03-real-time-state-sync | 2 | 20 min | 10 min |
+| 04-app-shell-pin-auth | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 45 min, 10 min
-- Trend: Improving
+- Last 5 plans: 45 min, 10 min, 3 min, 8 min, 12 min, 3 min
+- Trend: Fast
 
 *Updated after each plan completion*
 
@@ -104,9 +55,10 @@ Progress: [██████░░░░] 70%
 |------|----------|-------|-------|
 | Phase 01-backend-foundation P01 | 45 min | 3 tasks | 10 files |
 | Phase 01-backend-foundation P02 | 10 min | 2 tasks | 5 files |
-| Phase 02-playback-commands P01 | 3 | 3 tasks | 3 files |
-| Phase 03-real-time-state-sync P01 | 8 | 2 tasks | 5 files |
-| Phase 03-real-time-state-sync P02 | 12 | 2 tasks | 4 files |
+| Phase 02-playback-commands P01 | 3 min | 3 tasks | 3 files |
+| Phase 03-real-time-state-sync P01 | 8 min | 2 tasks | 5 files |
+| Phase 03-real-time-state-sync P02 | 12 min | 2 tasks | 4 files |
+| Phase 04-app-shell-pin-auth P01 | 3 min | 2 tasks | 20 files |
 
 ## Accumulated Context
 
@@ -135,6 +87,12 @@ Recent decisions affecting current work:
 - [Phase 03-real-time-state-sync]: GET /ws is server-to-client only — clients issue commands via REST, no incoming WS message handling
 - [Phase 03-02]: Track type inferred from device.Events.on callback — Track not exported from @svrooij/sonos main entry
 - [Phase 03-02]: Pino log.warn uses object-first style ({ err }, msg) to avoid unknown type rejection in overload matching
+- [Phase 04-01]: SONOS_PIN used as PIN env var (not APP_PIN) — already configured in docker-compose.yml and env.ts schema
+- [Phase 04-01]: httpOnly cookie (1-year maxAge) for server-side session + localStorage flag for auth flash prevention
+- [Phase 04-01]: useAuthStore() called inside router.beforeEach, not at module level — Pinia not initialized at module import time
+- [Phase 04-01]: Pinia registered before Vue Router in main.ts so guard can access store synchronously
+- [Phase 04-01]: No shake animation on wrong PIN — plain text error, dots cleared (user decision)
+- [Phase 04-01]: Logout button is discreet (transparent, secondary color) — not prominent per user decision
 
 ### Pending Todos
 
@@ -148,5 +106,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 03-real-time-state-sync-02-PLAN.md — GENA plugin wiring @svrooij/sonos events to state cache and WebSocket broadcast; Phase 03 complete.
-Resume file: .planning/phases/03-real-time-state-sync/03-02-SUMMARY.md
+Stopped at: Completed 04-app-shell-pin-auth-01-PLAN.md — Vue 3 SPA scaffold with PIN auth gate, Pinia auth store, Vue Router guard, PinPad digicode component, and Fastify cookie session endpoints.
+Resume file: .planning/phases/04-app-shell-pin-auth/04-01-SUMMARY.md
