@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useZonesStore } from '@/stores/zones'
 import { useWebSocket } from '@/composables/useWebSocket'
+import ZoneCard from '@/components/ZoneCard.vue'
 
 const store = useZonesStore()
 
@@ -18,11 +19,8 @@ const { connected } = useWebSocket((event, data) => {
     </div>
 
     <!-- Zone grid: rendered once zones are available -->
-    <!-- ZoneCard components added in plan 05-02 -->
     <div v-else class="zones-grid">
-      <div v-for="zone in store.zones" :key="zone.uuid" class="zone-placeholder">
-        {{ zone.name }}
-      </div>
+      <ZoneCard v-for="zone in store.zones" :key="zone.uuid" :zone="zone" />
     </div>
   </div>
 </template>
