@@ -7,7 +7,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 ## Milestones
 
 - ✅ **v1.0 Sonos Pilot** — Phases 1-4 (shipped 2026-02-27)
-- 📋 **v1.1** — Phase 5 (planned)
+- 🚧 **v1.1 Zone Dashboard** — Phases 5-6 (in progress)
 
 ## Phases
 
@@ -27,30 +27,50 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 </details>
 
-### 📋 Next (Planned)
+### 🚧 v1.1 Zone Dashboard (In Progress)
 
-- [ ] **Phase 5: Zone Dashboard** — Tableau de bord des zones avec état, now playing, et indicateur de source
+**Milestone Goal:** Dashboard grille montrant toutes les zones Sonos avec état en temps réel et contrôle direct par zone.
 
-### Phase 5: Zone Dashboard
-**Goal**: Users can see all zones at a glance, know what is playing in each, and control any zone directly from the dashboard
+- [ ] **Phase 5: Zone Display** — Grille de zones live : nom, now playing, source musicale, indicateur offline, WebSocket temps réel
+- [ ] **Phase 6: Playback Controls** — Contrôles interactifs par zone : play/pause, skip, volume slider, mute
+
+## Phase Details
+
+### Phase 5: Zone Display
+**Goal**: Users can see every zone at a glance with live state — what is playing, the source, and whether the speaker is reachable
 **Depends on**: Phase 4
-**Requirements**: ZONE-01, ZONE-02, SRC-01
+**Requirements**: ZONE-01, ZONE-02, ZONE-03, ZONE-04, RT-01, RT-02, RT-03
 **Success Criteria** (what must be TRUE):
-  1. All discovered zones appear on a single screen, each showing whether it is playing, paused, or idle
-  2. For each zone that is playing, the current track title and artist name are visible
-  3. For each zone, the active music source (Spotify, Deezer, or TuneIn) is identifiable
-  4. Playback controls (play/pause, volume slider, mute, skip) are accessible per zone without navigating away from the dashboard
-  5. When state changes on any zone, the dashboard updates automatically without a page reload
+  1. All discovered zones appear as cards in a responsive grid (2 columns on desktop, 1 column on mobile at 375px)
+  2. Each zone card shows the zone name, current track title and artist name when something is playing
+  3. Each zone card shows which music source is active (Spotify, Deezer, TuneIn, or Library)
+  4. A zone card shows a distinct offline indicator when the speaker is unreachable
+  5. Zone state loads immediately on page open without manual refresh, and updates automatically when state changes on any zone
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: Zone card component (state, now playing, source indicator) + WebSocket integration
-- [ ] 05-02: Per-zone transport controls (play/pause, volume slider, mute, skip) wired to backend API
+- [ ] 05-01: Zone store (Pinia) + WebSocket integration — snapshot load, state_changed events, reconnect logic
+- [ ] 05-02: ZoneCard component — grid layout, now playing, source indicator, offline state, design tokens
+
+### Phase 6: Playback Controls
+**Goal**: Users can control any zone directly from the dashboard card without navigating away
+**Depends on**: Phase 5
+**Requirements**: CTRL-01, CTRL-02, CTRL-03, CTRL-04
+**Success Criteria** (what must be TRUE):
+  1. Tapping the play/pause button on a zone card toggles playback on that zone and the button state updates immediately
+  2. Tapping skip-next or skip-previous on a zone card advances or steps back the track on that zone
+  3. Dragging the volume slider on a zone card adjusts the zone volume, and the slider reflects the current level after a WebSocket update
+  4. Tapping the mute button on a zone card toggles mute and the button reflects the current mute state
+**Plans**: TBD
+
+Plans:
+- [ ] 06-01: Transport controls (play/pause, skip prev/next) — ZoneCard integration, REST API wiring, optimistic UI
+- [ ] 06-02: Volume slider + mute control — debounced slider, mute toggle, synced from WebSocket state
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -58,4 +78,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Playback Commands | v1.0 | 1/1 | Complete | 2026-02-27 |
 | 3. Real-time State Sync | v1.0 | 2/2 | Complete | 2026-02-27 |
 | 4. App Shell + PIN Auth | v1.0 | 2/2 | Complete | 2026-02-27 |
-| 5. Zone Dashboard | v1.1 | 0/2 | Not started | - |
+| 5. Zone Display | v1.1 | 0/2 | Not started | - |
+| 6. Playback Controls | v1.1 | 0/2 | Not started | - |

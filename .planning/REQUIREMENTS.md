@@ -56,23 +56,23 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ZONE-01 | — | Pending |
-| ZONE-02 | — | Pending |
-| ZONE-03 | — | Pending |
-| ZONE-04 | — | Pending |
-| CTRL-01 | — | Pending |
-| CTRL-02 | — | Pending |
-| CTRL-03 | — | Pending |
-| CTRL-04 | — | Pending |
-| RT-01 | — | Pending |
-| RT-02 | — | Pending |
-| RT-03 | — | Pending |
+| ZONE-01 | Phase 5 | Pending |
+| ZONE-02 | Phase 5 | Pending |
+| ZONE-03 | Phase 5 | Pending |
+| ZONE-04 | Phase 5 | Pending |
+| CTRL-01 | Phase 6 | Pending |
+| CTRL-02 | Phase 6 | Pending |
+| CTRL-03 | Phase 6 | Pending |
+| CTRL-04 | Phase 6 | Pending |
+| RT-01 | Phase 5 | Pending |
+| RT-02 | Phase 5 | Pending |
+| RT-03 | Phase 5 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 11 total
-- Mapped to phases: 0
-- Unmapped: 11 ⚠️
+- Mapped to phases: 11
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-27*
-*Last updated: 2026-02-27 after initial definition*
+*Last updated: 2026-02-27 after roadmap creation (v1.1 phases 5-6)*
