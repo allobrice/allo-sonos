@@ -2,6 +2,7 @@ import Fastify from 'fastify'
 import envPlugin from './plugins/env.js'
 import sonosPlugin from './plugins/sonos.js'
 import wsPlugin from './plugins/websocket.js'
+import genaPlugin from './plugins/gena.js'
 import healthRoutes from './routes/health.js'
 import speakerRoutes from './routes/speakers.js'
 import wsRoutes from './routes/ws.js'
@@ -27,7 +28,10 @@ export async function buildApp() {
   //    MUST be before routes so upgrade requests are intercepted
   await fastify.register(wsPlugin)
 
-  // 4. Routes (depend on env, sonos, and websocket plugins)
+  // 4. GENA plugin — subscribes to Sonos events, hydrates state cache, starts heartbeat
+  await fastify.register(genaPlugin)
+
+  // 5. Routes (depend on env, sonos, websocket, and gena plugins)
   await fastify.register(healthRoutes)
   await fastify.register(speakerRoutes)
   await fastify.register(wsRoutes)
