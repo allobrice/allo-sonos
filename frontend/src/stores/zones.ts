@@ -33,5 +33,65 @@ export const useZonesStore = defineStore('zones', () => {
     _zones.value = new Map(_zones.value)
   }
 
-  return { zones, applySnapshot, applyStateChanged }
+  async function sendPlay(uuid: string) {
+    const zone = _zones.value.get(uuid)
+    if (!zone) return
+    const previousPlayState = zone.playState
+    // Optimistic update
+    _zones.value.set(uuid, { ...zone, playState: 'PLAYING' })
+    _zones.value = new Map(_zones.value)
+    try {
+      const res = await fetch(`/api/speakers/${uuid}/play`, { method: 'POST', credentials: 'include' })
+      if (!res.ok) throw new Error('Non-ok response')
+    } catch {
+      // Silently revert on failure
+      const current = _zones.value.get(uuid)
+      if (current) {
+        _zones.value.set(uuid, { ...current, playState: previousPlayState })
+        _zones.value = new Map(_zones.value)
+      }
+    }
+  }
+
+  async function sendPause(uuid: string) {
+    const zone = _zones.value.get(uuid)
+    if (!zone) return
+    const previousPlayState = zone.playState
+    // Optimistic update
+    _zones.value.set(uuid, { ...zone, playState: 'PAUSED_PLAYBACK' })
+    _zones.value = new Map(_zones.value)
+    try {
+      const res = await fetch(`/api/speakers/${uuid}/pause`, { method: 'POST', credentials: 'include' })
+      if (!res.ok) throw new Error('Non-ok response')
+    } catch {
+      // Silently revert on failure
+      const current = _zones.value.get(uuid)
+      if (current) {
+        _zones.value.set(uuid, { ...current, playState: previousPlayState })
+        _zones.value = new Map(_zones.value)
+      }
+    }
+  }
+
+  async function sendNext(uuid: string) {
+    // No optimistic playState change for track skip (track change is async)
+    try {
+      const res = await fetch(`/api/speakers/${uuid}/next`, { method: 'POST', credentials: 'include' })
+      if (!res.ok) throw new Error('Non-ok response')
+    } catch {
+      // Silently ignore — no optimistic state to revert
+    }
+  }
+
+  async function sendPrevious(uuid: string) {
+    // No optimistic playState change for track skip (track change is async)
+    try {
+      const res = await fetch(`/api/speakers/${uuid}/previous`, { method: 'POST', credentials: 'include' })
+      if (!res.ok) throw new Error('Non-ok response')
+    } catch {
+      // Silently ignore — no optimistic state to revert
+    }
+  }
+
+  return { zones, applySnapshot, applyStateChanged, sendPlay, sendPause, sendNext, sendPrevious }
 })
