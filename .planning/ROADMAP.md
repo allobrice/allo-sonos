@@ -78,5 +78,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Playback Commands | v1.0 | 1/1 | Complete | 2026-02-27 |
 | 3. Real-time State Sync | v1.0 | 2/2 | Complete | 2026-02-27 |
 | 4. App Shell + PIN Auth | v1.0 | 2/2 | Complete | 2026-02-27 |
-| 5. Zone Display | v1.1 | 0/2 | Not started | - |
+| 5. Zone Display | 1/2 | In Progress|  | - |
 | 6. Playback Controls | v1.1 | 0/2 | Not started | - |

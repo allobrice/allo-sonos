@@ -9,10 +9,10 @@ Requirements for milestone v1.1 Zone Dashboard. Each maps to roadmap phases.
 
 ### Zone Display
 
-- [ ] **ZONE-01**: L'utilisateur voit toutes les zones Sonos dans une grille responsive (2 colonnes desktop, 1 colonne mobile)
-- [ ] **ZONE-02**: L'utilisateur voit le nom de la zone, le titre et l'artiste du morceau en cours sur chaque carte
-- [ ] **ZONE-03**: L'utilisateur voit un indicateur de source musicale par zone (Spotify, Deezer, TuneIn, Library)
-- [ ] **ZONE-04**: L'utilisateur voit un indicateur visuel quand une enceinte est injoignable (offline)
+- [x] **ZONE-01**: L'utilisateur voit toutes les zones Sonos dans une grille responsive (2 colonnes desktop, 1 colonne mobile)
+- [x] **ZONE-02**: L'utilisateur voit le nom de la zone, le titre et l'artiste du morceau en cours sur chaque carte
+- [x] **ZONE-03**: L'utilisateur voit un indicateur de source musicale par zone (Spotify, Deezer, TuneIn, Library)
+- [x] **ZONE-04**: L'utilisateur voit un indicateur visuel quand une enceinte est injoignable (offline)
 
 ### Playback Controls
 
@@ -23,9 +23,9 @@ Requirements for milestone v1.1 Zone Dashboard. Each maps to roadmap phases.
 
 ### Real-Time
 
-- [ ] **RT-01**: Le dashboard charge l'état de toutes les zones au démarrage via WebSocket snapshot
-- [ ] **RT-02**: Le dashboard met à jour les cartes en temps réel quand l'état change (state_changed events)
-- [ ] **RT-03**: Le WebSocket se reconnecte automatiquement si la connexion est perdue
+- [x] **RT-01**: Le dashboard charge l'état de toutes les zones au démarrage via WebSocket snapshot
+- [x] **RT-02**: Le dashboard met à jour les cartes en temps réel quand l'état change (state_changed events)
+- [x] **RT-03**: Le WebSocket se reconnecte automatiquement si la connexion est perdue
 
 ## v2 Requirements
 
@@ -56,17 +56,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ZONE-01 | Phase 5 | Pending |
-| ZONE-02 | Phase 5 | Pending |
-| ZONE-03 | Phase 5 | Pending |
-| ZONE-04 | Phase 5 | Pending |
+| ZONE-01 | Phase 5 | Complete |
+| ZONE-02 | Phase 5 | Complete |
+| ZONE-03 | Phase 5 | Complete |
+| ZONE-04 | Phase 5 | Complete |
 | CTRL-01 | Phase 6 | Pending |
 | CTRL-02 | Phase 6 | Pending |
 | CTRL-03 | Phase 6 | Pending |
 | CTRL-04 | Phase 6 | Pending |
-| RT-01 | Phase 5 | Pending |
-| RT-02 | Phase 5 | Pending |
-| RT-03 | Phase 5 | Pending |
+| RT-01 | Phase 5 | Complete |
+| RT-02 | Phase 5 | Complete |
+| RT-03 | Phase 5 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 11 total

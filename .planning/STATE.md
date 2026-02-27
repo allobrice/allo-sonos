@@ -8,7 +8,7 @@ progress:
   total_phases: 2
   completed_phases: 0
   total_plans: 4
-  completed_plans: 0
+  completed_plans: 1
 ---
 
 # Project State
@@ -23,27 +23,27 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 5 of 6 (Zone Display)
-Plan: 0 of 2 in current phase
-Status: Ready to plan
-Last activity: 2026-02-27 — Roadmap created for v1.1, phases 5-6 defined
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-02-27 — Completed 05-01: Zone Store (Pinia) + WebSocket Integration
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 25%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0 (v1.1)
-- Average duration: — (no v1.1 plans yet)
-- Total execution time: —
+- Total plans completed: 1 (v1.1)
+- Average duration: 54s
+- Total execution time: 54s
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 5. Zone Display | 0/2 | — | — |
+| 5. Zone Display | 1/2 | 54s | 54s |
 | 6. Playback Controls | 0/2 | — | — |
 
-**Recent Trend:** No data yet
+**Recent Trend:** 1 plan completed today
 
 ## Accumulated Context
 
@@ -55,6 +55,8 @@ Recent decisions affecting current work:
 - v1.0: GET /ws is server-to-client only — commands go via REST, not WebSocket
 - v1.0: Dark theme with CSS design tokens (var(--color-*)) — all new components must follow this pattern
 - v1.0: Direct SOAP for commands, @svrooij/sonos for SSDP only — backend API is stable and complete
+- 05-01: useZonesStore uses Map<string, ZoneState> keyed by UUID — Map ref replaced on each mutation to trigger Pinia reactivity
+- 05-01: ZonesView opens its own WebSocket connection (separate from AppHeader) — correct for current architecture
 
 ### Pending Todos
 
@@ -67,5 +69,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Roadmap created. Phase 5 ready to plan. Run /gsd:plan-phase 5.
+Stopped at: Completed 05-01-PLAN.md — Zone Store (Pinia) + WebSocket Integration
 Resume file: None
