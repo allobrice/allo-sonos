@@ -16,8 +16,8 @@ Requirements for milestone v1.1 Zone Dashboard. Each maps to roadmap phases.
 
 ### Playback Controls
 
-- [ ] **CTRL-01**: L'utilisateur peut basculer play/pause sur chaque zone
-- [ ] **CTRL-02**: L'utilisateur peut passer au morceau suivant ou précédent sur chaque zone
+- [x] **CTRL-01**: L'utilisateur peut basculer play/pause sur chaque zone
+- [x] **CTRL-02**: L'utilisateur peut passer au morceau suivant ou précédent sur chaque zone
 - [ ] **CTRL-03**: L'utilisateur peut ajuster le volume de chaque zone via un slider (0-100)
 - [ ] **CTRL-04**: L'utilisateur peut activer/désactiver le mute sur chaque zone
 
@@ -60,8 +60,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ZONE-02 | Phase 5 | Complete |
 | ZONE-03 | Phase 5 | Complete |
 | ZONE-04 | Phase 5 | Complete |
-| CTRL-01 | Phase 6 | Pending |
-| CTRL-02 | Phase 6 | Pending |
+| CTRL-01 | Phase 6 | Complete |
+| CTRL-02 | Phase 6 | Complete |
 | CTRL-03 | Phase 6 | Pending |
 | CTRL-04 | Phase 6 | Pending |
 | RT-01 | Phase 5 | Complete |
