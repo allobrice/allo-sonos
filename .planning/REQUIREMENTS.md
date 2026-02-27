@@ -1,0 +1,78 @@
+# Requirements: Sonos Pilot
+
+**Defined:** 2026-02-27
+**Core Value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
+
+## v1.1 Requirements
+
+Requirements for milestone v1.1 Zone Dashboard. Each maps to roadmap phases.
+
+### Zone Display
+
+- [ ] **ZONE-01**: L'utilisateur voit toutes les zones Sonos dans une grille responsive (2 colonnes desktop, 1 colonne mobile)
+- [ ] **ZONE-02**: L'utilisateur voit le nom de la zone, le titre et l'artiste du morceau en cours sur chaque carte
+- [ ] **ZONE-03**: L'utilisateur voit un indicateur de source musicale par zone (Spotify, Deezer, TuneIn, Library)
+- [ ] **ZONE-04**: L'utilisateur voit un indicateur visuel quand une enceinte est injoignable (offline)
+
+### Playback Controls
+
+- [ ] **CTRL-01**: L'utilisateur peut basculer play/pause sur chaque zone
+- [ ] **CTRL-02**: L'utilisateur peut passer au morceau suivant ou précédent sur chaque zone
+- [ ] **CTRL-03**: L'utilisateur peut ajuster le volume de chaque zone via un slider (0-100)
+- [ ] **CTRL-04**: L'utilisateur peut activer/désactiver le mute sur chaque zone
+
+### Real-Time
+
+- [ ] **RT-01**: Le dashboard charge l'état de toutes les zones au démarrage via WebSocket snapshot
+- [ ] **RT-02**: Le dashboard met à jour les cartes en temps réel quand l'état change (state_changed events)
+- [ ] **RT-03**: Le WebSocket se reconnecte automatiquement si la connexion est perdue
+
+## v2 Requirements
+
+Deferred to future milestone. Tracked but not in current roadmap.
+
+### Enhanced Display
+
+- **DISP-01**: L'utilisateur voit la pochette de l'album sur chaque carte de zone
+- **DISP-02**: L'utilisateur voit la durée et la progression du morceau en cours
+
+### Group Management
+
+- **GRP-01**: L'utilisateur peut voir quelles zones sont groupées
+- **GRP-02**: L'utilisateur peut grouper/dégrouper des zones
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Gestion de bibliothèque musicale | Pas un besoin — on navigue dans les sources existantes |
+| Planification horaire | Pas un besoin actuel |
+| Recherche / navigation de contenu | Complexité hors scope — les sources sont gérées via app Sonos native |
+| Accès externe (hors LAN) | Sécurité — l'équipe est sur site |
+
+## Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| ZONE-01 | — | Pending |
+| ZONE-02 | — | Pending |
+| ZONE-03 | — | Pending |
+| ZONE-04 | — | Pending |
+| CTRL-01 | — | Pending |
+| CTRL-02 | — | Pending |
+| CTRL-03 | — | Pending |
+| CTRL-04 | — | Pending |
+| RT-01 | — | Pending |
+| RT-02 | — | Pending |
+| RT-03 | — | Pending |
+
+**Coverage:**
+- v1.1 requirements: 11 total
+- Mapped to phases: 0
+- Unmapped: 11 ⚠️
+
+---
+*Requirements defined: 2026-02-27*
+*Last updated: 2026-02-27 after initial definition*
