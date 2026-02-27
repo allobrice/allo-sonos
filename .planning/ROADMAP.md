@@ -7,7 +7,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 ## Milestones
 
 - ✅ **v1.0 Sonos Pilot** — Phases 1-4 (shipped 2026-02-27)
-- 🚧 **v1.1 Zone Dashboard** — Phases 5-6 (in progress)
+- ✅ **v1.1 Zone Dashboard** — Phases 5-6 (shipped 2026-02-27)
 
 ## Phases
 
@@ -27,45 +27,15 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 </details>
 
-### 🚧 v1.1 Zone Dashboard (In Progress)
+<details>
+<summary>✅ v1.1 Zone Dashboard (Phases 5-6) — SHIPPED 2026-02-27</summary>
 
-**Milestone Goal:** Dashboard grille montrant toutes les zones Sonos avec état en temps réel et contrôle direct par zone.
+- [x] **Phase 5: Zone Display** — Grille de zones live : nom, now playing, source musicale, indicateur offline, WebSocket temps réel (2/2 plans) — completed 2026-02-27
+- [x] **Phase 6: Playback Controls** — Contrôles interactifs par zone : play/pause, skip, volume slider, mute (2/2 plans) — completed 2026-02-27
 
-- [x] **Phase 5: Zone Display** — Grille de zones live : nom, now playing, source musicale, indicateur offline, WebSocket temps réel
-- [x] **Phase 6: Playback Controls** — Contrôles interactifs par zone : play/pause, skip, volume slider, mute (completed 2026-02-27)
+**Archive:** `.planning/milestones/v1.1-ROADMAP.md`
 
-## Phase Details
-
-### Phase 5: Zone Display
-**Goal**: Users can see every zone at a glance with live state — what is playing, the source, and whether the speaker is reachable
-**Depends on**: Phase 4
-**Requirements**: ZONE-01, ZONE-02, ZONE-03, ZONE-04, RT-01, RT-02, RT-03
-**Success Criteria** (what must be TRUE):
-  1. All discovered zones appear as cards in a responsive grid (2 columns on desktop, 1 column on mobile at 375px)
-  2. Each zone card shows the zone name, current track title and artist name when something is playing
-  3. Each zone card shows which music source is active (Spotify, Deezer, TuneIn, or Library)
-  4. A zone card shows a distinct offline indicator when the speaker is unreachable
-  5. Zone state loads immediately on page open without manual refresh, and updates automatically when state changes on any zone
-**Plans**: TBD
-
-Plans:
-- [x] 05-01: Zone store (Pinia) + WebSocket integration — snapshot load, state_changed events, reconnect logic
-- [x] 05-02: ZoneCard component — grid layout, now playing, source indicator, offline state, design tokens
-
-### Phase 6: Playback Controls
-**Goal**: Users can control any zone directly from the dashboard card without navigating away
-**Depends on**: Phase 5
-**Requirements**: CTRL-01, CTRL-02, CTRL-03, CTRL-04
-**Success Criteria** (what must be TRUE):
-  1. Tapping the play/pause button on a zone card toggles playback on that zone and the button state updates immediately
-  2. Tapping skip-next or skip-previous on a zone card advances or steps back the track on that zone
-  3. Dragging the volume slider on a zone card adjusts the zone volume, and the slider reflects the current level after a WebSocket update
-  4. Tapping the mute button on a zone card toggles mute and the button reflects the current mute state
-**Plans**: 2 plans
-
-Plans:
-- [ ] 06-01: Transport controls (play/pause, skip prev/next) — ZoneCard integration, REST API wiring, optimistic UI
-- [ ] 06-02: Volume slider + mute control — debounced slider, mute toggle, synced from WebSocket state
+</details>
 
 ## Progress
 
@@ -79,4 +49,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Real-time State Sync | v1.0 | 2/2 | Complete | 2026-02-27 |
 | 4. App Shell + PIN Auth | v1.0 | 2/2 | Complete | 2026-02-27 |
 | 5. Zone Display | v1.1 | 2/2 | Complete | 2026-02-27 |
-| 6. Playback Controls | 2/2 | Complete   | 2026-02-27 | - |
+| 6. Playback Controls | v1.1 | 2/2 | Complete | 2026-02-27 |

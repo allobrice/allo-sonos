@@ -2,7 +2,7 @@
 
 ## What This Is
 
-Une application web légère permettant de piloter le réseau Sonos d'entreprise (2-5 zones) depuis n'importe quel navigateur sur le réseau local. Backend Fastify avec découverte SSDP, commandes SOAP directes, et push WebSocket en temps réel. Frontend Vue 3 protégé par PIN avec un shell responsive dark theme mobile-first.
+Une application web légère permettant de piloter le réseau Sonos d'entreprise (2-5 zones) depuis n'importe quel navigateur sur le réseau local. Backend Fastify avec découverte SSDP, commandes SOAP directes, et push WebSocket en temps réel. Frontend Vue 3 avec dashboard de zones interactif — grille responsive affichant l'état de chaque zone avec contrôles de playback directs (play/pause, skip, volume, mute).
 
 ## Core Value
 
@@ -17,22 +17,14 @@ Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans fric
 - ✓ Interface épurée, mobile-first, utilisable par toute l'équipe — v1.0 (dark theme, design tokens, 44px+ touch targets)
 - ✓ Synchronisation temps réel des changements d'état — v1.0 (GENA → StateCache → WebSocket < 2s)
 - ✓ Découverte automatique des enceintes Sonos — v1.0 (SSDP + fallback IP manuel)
+- ✓ Dashboard grille de toutes les zones avec état en temps réel — v1.1 (grille responsive 2-col/1-col, now playing, source icons)
+- ✓ Contrôles de playback par zone : play/pause, skip, volume slider, mute — v1.1 (optimistic UI, debounced volume, 300ms anti-double-tap)
+- ✓ Indicateur de source musicale par zone — v1.1 (inline SVG icons: Spotify, Deezer, TuneIn, Library)
+- ✓ Mises à jour temps réel via WebSocket — v1.1 (snapshot load + state_changed dispatch, auto-reconnect)
 
 ### Active
 
-- [ ] Dashboard grille de toutes les zones avec état en temps réel (ZONE-01, ZONE-02, ZONE-03)
-- [ ] Contrôles de playback par zone : play/pause, skip, volume slider (CTRL-01, CTRL-02, CTRL-03)
-- [ ] Indicateur de source musicale par zone — Spotify, Deezer, TuneIn (SRC-01)
-- [ ] Mises à jour temps réel via WebSocket (RT-01)
-
-## Current Milestone: v1.1 Zone Dashboard
-
-**Goal:** Dashboard grille montrant toutes les zones Sonos avec contrôle et état en temps réel.
-
-**Target features:**
-- Grille de zones responsive (2 colonnes desktop, 1 colonne mobile)
-- Par zone : nom, titre/artiste en cours, source musicale, volume slider, play/pause/skip
-- Synchronisation temps réel via WebSocket (infrastructure v1.0)
+(No active requirements — next milestone not yet defined)
 
 ### Out of Scope
 
@@ -46,10 +38,10 @@ Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans fric
 
 ## Context
 
-Shipped v1.0 avec 2,059 LOC (TypeScript + Vue + CSS) en 3 jours.
+Shipped v1.1 avec 3,526 LOC (TypeScript + Vue + CSS) en 5 jours (v1.0 + v1.1).
 Tech stack: Fastify v5, Vue 3, Pinia, @svrooij/sonos (SSDP only), direct SOAP, @fastify/websocket.
 
-Le backend expose 8 endpoints de playback, un pipeline WebSocket temps réel (GENA → StateCache → broadcast), et une auth par PIN. Le frontend est un SPA Vue 3 avec un app shell responsive dark theme. Le zone dashboard (Phase 5) consommera l'infrastructure déjà en place.
+Le backend expose 8 endpoints de playback, un pipeline WebSocket temps réel (GENA → StateCache → broadcast), et une auth par PIN. Le frontend est un SPA Vue 3 avec un dashboard de zones interactif : grille responsive montrant chaque zone avec now playing, source musicale, transport controls (play/pause, skip), volume slider et mute toggle. Toutes les interactions sont optimistes avec revert silencieux en cas d'erreur API.
 
 ## Constraints
 
@@ -69,6 +61,10 @@ Le backend expose 8 endpoints de playback, un pipeline WebSocket temps réel (GE
 | 300ms debounce per UUID dans StateCache | Évite les broadcasts excessifs lors de rafales d'événements GENA | ✓ Good — collapse les mises à jour rapides |
 | GET /ws server-to-client only | Simplification — les commandes passent par REST, pas par WebSocket | ✓ Good — séparation claire des responsabilités |
 | Dark theme avec design tokens CSS | Base réutilisable, cohérence visuelle, personnalisation facile | ✓ Good — tous les composants utilisent var(--color-*) |
+| Map<string, ZoneState> keyed by UUID | O(1) lookup, Map ref replaced on mutation pour Pinia reactivity | ✓ Good — performant et réactif |
+| Optimistic UI avec revert silencieux | Feedback instantané, pas de spinner, revert si erreur API | ✓ Good — UX fluide sans latence perçue |
+| localVolume ref découpée du store | Empêche les sauts pendant le drag, WebSocket sync gated par dragging ref | ✓ Good — slider smooth sans conflits |
+| Dual WebSocket instances (AppHeader + ZonesView) | Architecture simple, chaque composant gère sa connexion | — Acceptable — à revisiter si limites de connexion |
 
 ---
-*Last updated: 2026-02-27 after v1.1 milestone start*
+*Last updated: 2026-02-27 after v1.1 milestone*
