@@ -40,7 +40,7 @@ declare module 'fastify' {
 const envPlugin: FastifyPluginAsync = async (fastify) => {
   await fastify.register(fastifyEnv, {
     schema,
-    dotenv: false,
+    dotenv: true,
   })
 }
 
