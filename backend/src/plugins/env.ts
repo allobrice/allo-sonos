@@ -15,6 +15,10 @@ const schema = {
       type: 'string',
       default: '',
     },
+    SONOS_LISTENER_HOST: {
+      type: 'string',
+      default: '',
+    },
     PORT: {
       type: 'integer',
       default: 3000,
@@ -27,6 +31,7 @@ declare module 'fastify' {
     config: {
       SONOS_PIN: string
       SONOS_SPEAKER_IPS: string
+      SONOS_LISTENER_HOST: string
       PORT: number
     }
   }

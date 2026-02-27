@@ -8,4 +8,5 @@ services:
       - PORT=3000
       - SONOS_PIN=1234
       - SONOS_SPEAKER_IPS=
+      - SONOS_LISTENER_HOST=
     # No ports: mapping — network_mode: host exposes port 3000 directly on the host
