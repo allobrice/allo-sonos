@@ -61,7 +61,7 @@ Plans:
   2. Tapping skip-next or skip-previous on a zone card advances or steps back the track on that zone
   3. Dragging the volume slider on a zone card adjusts the zone volume, and the slider reflects the current level after a WebSocket update
   4. Tapping the mute button on a zone card toggles mute and the button reflects the current mute state
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 06-01: Transport controls (play/pause, skip prev/next) — ZoneCard integration, REST API wiring, optimistic UI
