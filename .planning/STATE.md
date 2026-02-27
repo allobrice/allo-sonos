@@ -3,6 +3,19 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
+last_updated: "2026-02-27T14:44:56.381Z"
+progress:
+  total_phases: 2
+  completed_phases: 2
+  total_plans: 3
+  completed_plans: 3
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: unknown
 last_updated: "2026-02-26T16:13:56.346Z"
 progress:
   total_phases: 1
@@ -35,12 +48,12 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Current Position
 
-Phase: 2 of 5 (Playback Commands) — Context gathered, ready for planning
-Plan: 0 of TBD in phase 02
-Status: Phase 2 Context Gathered
-Last activity: 2026-02-27 — Phase 2 context gathered (discuss-phase)
+Phase: 2 of 5 (Playback Commands) — Plan 01 complete
+Plan: 1 of 1 in phase 02
+Status: Phase 2 Plan 01 Complete
+Last activity: 2026-02-27 — 8 dedicated speaker endpoints, PLAY-01 through PLAY-04 delivered
 
-Progress: [██░░░░░░░░] 40%
+Progress: [████░░░░░░] 60%
 
 ## Performance Metrics
 
@@ -65,6 +78,7 @@ Progress: [██░░░░░░░░] 40%
 |------|----------|-------|-------|
 | Phase 01-backend-foundation P01 | 45 min | 3 tasks | 10 files |
 | Phase 01-backend-foundation P02 | 10 min | 2 tasks | 5 files |
+| Phase 02-playback-commands P01 | 3 | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -85,6 +99,9 @@ Recent decisions affecting current work:
 - [Phase 01-02]: Direct SOAP for all Sonos commands — @svrooij/sonos command API confirmed broken on real hardware
 - [Phase 01-02]: SpeakerRegistry.getCoordinator() enforces coordinator routing for transport commands
 - [Phase 01-02]: Degraded mode on discovery failure: empty array returned, server starts without speakers
+- [Phase 02-playback-commands]: Volume endpoint uses PUT (REST semantics for idempotent resource update)
+- [Phase 02-playback-commands]: State reading is best-effort — readSpeakerState returns null on any error, command success unaffected
+- [Phase 02-playback-commands]: XMLParser uses removeNSPrefix: true to strip SOAP namespace prefixes from parsed response keys
 
 ### Pending Todos
 
@@ -98,5 +115,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Phase 2 context gathered — decisions captured for endpoint design, volume control, response format, zone targeting.
-Resume file: .planning/phases/02-playback-commands/02-CONTEXT.md
+Stopped at: Completed 02-playback-commands-01-PLAN.md — 8 dedicated speaker endpoints (play, pause, next, previous, volume, mute, unmute, state) with sonos-commands and sonos-state service modules.
+Resume file: .planning/phases/02-playback-commands/02-01-SUMMARY.md

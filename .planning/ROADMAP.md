@@ -44,10 +44,10 @@ Plans:
   2. Adjusting volume via the API changes the speaker volume immediately
   3. Muting and unmuting a zone via the API silences and restores audio
   4. Sending a next or previous command via the API skips to the next or previous track
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 02-01: REST API endpoints for play/pause, volume, mute/unmute, next/previous
+- [ ] 02-01-PLAN.md — SOAP service extraction + state reading + 8 dedicated REST endpoints (play, pause, next, previous, volume, mute, unmute, state)
 
 ### Phase 3: Real-time State Sync
 **Goal**: The UI can always show the current state of every zone, even when changes are made from another controller (Sonos app, voice assistant, etc.)
