@@ -20,8 +20,19 @@ Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans fric
 
 ### Active
 
-- [ ] Vue d'ensemble de toutes les zones en un coup d'œil (ZONE-01, ZONE-02)
+- [ ] Dashboard grille de toutes les zones avec état en temps réel (ZONE-01, ZONE-02, ZONE-03)
+- [ ] Contrôles de playback par zone : play/pause, skip, volume slider (CTRL-01, CTRL-02, CTRL-03)
 - [ ] Indicateur de source musicale par zone — Spotify, Deezer, TuneIn (SRC-01)
+- [ ] Mises à jour temps réel via WebSocket (RT-01)
+
+## Current Milestone: v1.1 Zone Dashboard
+
+**Goal:** Dashboard grille montrant toutes les zones Sonos avec contrôle et état en temps réel.
+
+**Target features:**
+- Grille de zones responsive (2 colonnes desktop, 1 colonne mobile)
+- Par zone : nom, titre/artiste en cours, source musicale, volume slider, play/pause/skip
+- Synchronisation temps réel via WebSocket (infrastructure v1.0)
 
 ### Out of Scope
 
@@ -60,4 +71,4 @@ Le backend expose 8 endpoints de playback, un pipeline WebSocket temps réel (GE
 | Dark theme avec design tokens CSS | Base réutilisable, cohérence visuelle, personnalisation facile | ✓ Good — tous les composants utilisent var(--color-*) |
 
 ---
-*Last updated: 2026-02-27 after v1.0 milestone*
+*Last updated: 2026-02-27 after v1.1 milestone start*
