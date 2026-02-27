@@ -93,5 +93,81 @@ export const useZonesStore = defineStore('zones', () => {
     }
   }
 
-  return { zones, applySnapshot, applyStateChanged, sendPlay, sendPause, sendNext, sendPrevious }
+  async function sendVolume(uuid: string, level: number) {
+    const zone = _zones.value.get(uuid)
+    if (!zone) return
+    const previousVolume = zone.volume
+    // Optimistic update
+    _zones.value.set(uuid, { ...zone, volume: level })
+    _zones.value = new Map(_zones.value)
+    try {
+      const res = await fetch(`/api/speakers/${uuid}/volume`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ level }),
+      })
+      if (!res.ok) throw new Error('Non-ok response')
+    } catch {
+      // Silently revert on failure
+      const current = _zones.value.get(uuid)
+      if (current) {
+        _zones.value.set(uuid, { ...current, volume: previousVolume })
+        _zones.value = new Map(_zones.value)
+      }
+    }
+  }
+
+  async function sendMute(uuid: string) {
+    const zone = _zones.value.get(uuid)
+    if (!zone) return
+    const previousMuted = zone.muted
+    // Optimistic update
+    _zones.value.set(uuid, { ...zone, muted: true })
+    _zones.value = new Map(_zones.value)
+    try {
+      const res = await fetch(`/api/speakers/${uuid}/mute`, { method: 'POST', credentials: 'include' })
+      if (!res.ok) throw new Error('Non-ok response')
+    } catch {
+      // Silently revert on failure
+      const current = _zones.value.get(uuid)
+      if (current) {
+        _zones.value.set(uuid, { ...current, muted: previousMuted })
+        _zones.value = new Map(_zones.value)
+      }
+    }
+  }
+
+  async function sendUnmute(uuid: string) {
+    const zone = _zones.value.get(uuid)
+    if (!zone) return
+    const previousMuted = zone.muted
+    // Optimistic update
+    _zones.value.set(uuid, { ...zone, muted: false })
+    _zones.value = new Map(_zones.value)
+    try {
+      const res = await fetch(`/api/speakers/${uuid}/unmute`, { method: 'POST', credentials: 'include' })
+      if (!res.ok) throw new Error('Non-ok response')
+    } catch {
+      // Silently revert on failure
+      const current = _zones.value.get(uuid)
+      if (current) {
+        _zones.value.set(uuid, { ...current, muted: previousMuted })
+        _zones.value = new Map(_zones.value)
+      }
+    }
+  }
+
+  return {
+    zones,
+    applySnapshot,
+    applyStateChanged,
+    sendPlay,
+    sendPause,
+    sendNext,
+    sendPrevious,
+    sendVolume,
+    sendMute,
+    sendUnmute,
+  }
 })
