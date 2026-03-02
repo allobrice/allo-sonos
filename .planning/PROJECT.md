@@ -24,7 +24,14 @@ Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans fric
 
 ### Active
 
-(No active requirements — next milestone not yet defined)
+#### Current Milestone: v1.2 Sonos Favorites
+
+**Goal:** Permettre de parcourir et lancer les favoris Sonos directement depuis chaque zone card.
+
+**Target features:**
+- Parcourir tous les favoris Sonos (stations, playlists, albums)
+- Lancer un favori sur une zone depuis la ZoneCard
+- Affichage adapté au type de favori
 
 ### Out of Scope
 
@@ -67,4 +74,4 @@ Le backend expose 8 endpoints de playback, un pipeline WebSocket temps réel (GE
 | Dual WebSocket instances (AppHeader + ZonesView) | Architecture simple, chaque composant gère sa connexion | — Acceptable — à revisiter si limites de connexion |
 
 ---
-*Last updated: 2026-02-27 after v1.1 milestone*
+*Last updated: 2026-03-02 after v1.2 milestone start*

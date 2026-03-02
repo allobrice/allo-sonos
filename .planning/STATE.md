@@ -1,31 +1,31 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Zone Dashboard
-status: completed
-last_updated: "2026-02-27"
+milestone: v1.2
+milestone_name: Sonos Favorites
+status: active
+last_updated: "2026-03-02"
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-27)
+See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
-**Current focus:** Planning next milestone
+**Current focus:** Defining requirements for v1.2 Sonos Favorites
 
 ## Current Position
 
-Milestone v1.1 Zone Dashboard — SHIPPED 2026-02-27
-All 6 phases complete (v1.0 + v1.1), 11 plans total.
-
-Progress: [██████████] 100%
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-02 — Milestone v1.2 started
 
 ## Accumulated Context
 
@@ -51,6 +51,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-27
-Stopped at: Completed milestone v1.1 archival
+Last session: 2026-03-02
+Stopped at: Defining v1.2 requirements
 Resume file: None
