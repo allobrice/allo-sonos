@@ -8,6 +8,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 - ✅ **v1.0 Sonos Pilot** — Phases 1-4 (shipped 2026-02-27)
 - ✅ **v1.1 Zone Dashboard** — Phases 5-6 (shipped 2026-02-27)
+- 🚧 **v1.2 Sonos Favorites** — Phases 7-8 (in progress)
 
 ## Phases
 
@@ -37,10 +38,42 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 </details>
 
+### 🚧 v1.2 Sonos Favorites (In Progress)
+
+**Milestone Goal:** Permettre de parcourir et lancer les favoris Sonos directement depuis chaque zone card.
+
+- [ ] **Phase 7: Favorites Backend** — Endpoints REST pour récupérer les favoris (ContentDirectory SOAP) et lancer un favori sur une zone
+- [ ] **Phase 8: Favorites UI** — Panneau favoris intégré à la ZoneCard : ouverture/fermeture, liste typée, lancement en un tap
+
+## Phase Details
+
+### Phase 7: Favorites Backend
+**Goal**: L'API backend expose les favoris Sonos et permet de lancer un favori sur une zone
+**Depends on**: Phase 6
+**Requirements**: FAV-04
+**Success Criteria** (what must be TRUE):
+  1. GET /favorites returns a list of all Sonos favorites with title, type (station/playlist/album), and URI
+  2. POST /zones/:id/play-favorite accepts a favorite URI and starts playback on the target zone
+  3. The favorites list is fetched via ContentDirectory SOAP (Browse FV:2) from a reachable speaker
+  4. A favorite with an unknown type falls back to a safe default type rather than failing
+**Plans**: TBD
+
+### Phase 8: Favorites UI
+**Goal**: L'utilisateur peut parcourir et lancer un favori directement depuis la ZoneCard
+**Depends on**: Phase 7
+**Requirements**: FAV-01, FAV-02, FAV-03, NAV-01, NAV-02
+**Success Criteria** (what must be TRUE):
+  1. User sees a button on each ZoneCard that opens a favorites panel for that zone
+  2. User sees the full list of Sonos favorites (station, playlist, album) inside the panel
+  3. Each favorite in the list displays a visual indicator of its type (station, playlist, album)
+  4. Tapping a favorite starts playback on that zone and closes the panel automatically
+  5. User can close the panel without selecting a favorite using the same button or an explicit close control
+**Plans**: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -50,3 +83,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 4. App Shell + PIN Auth | v1.0 | 2/2 | Complete | 2026-02-27 |
 | 5. Zone Display | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 6. Playback Controls | v1.1 | 2/2 | Complete | 2026-02-27 |
+| 7. Favorites Backend | v1.2 | 0/? | Not started | - |
+| 8. Favorites UI | v1.2 | 0/? | Not started | - |

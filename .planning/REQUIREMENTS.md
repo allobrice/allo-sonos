@@ -51,18 +51,18 @@ Requirements for milestone v1.2 Sonos Favorites. Each maps to roadmap phases.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FAV-01 | — | Pending |
-| FAV-02 | — | Pending |
-| FAV-03 | — | Pending |
-| FAV-04 | — | Pending |
-| NAV-01 | — | Pending |
-| NAV-02 | — | Pending |
+| FAV-01 | Phase 8 | Pending |
+| FAV-02 | Phase 8 | Pending |
+| FAV-03 | Phase 8 | Pending |
+| FAV-04 | Phase 7 | Pending |
+| NAV-01 | Phase 8 | Pending |
+| NAV-02 | Phase 8 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 6 total
-- Mapped to phases: 0
-- Unmapped: 6 ⚠️
+- Mapped to phases: 6
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-02*
-*Last updated: 2026-03-02 after initial definition*
+*Last updated: 2026-03-02 after roadmap creation*
