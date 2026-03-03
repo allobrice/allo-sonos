@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import type { ZoneState } from '@/stores/zones'
 import { useZonesStore } from '@/stores/zones'
+import FavoritesSheet from '@/components/FavoritesSheet.vue'
 
 const props = defineProps<{ zone: ZoneState }>()
 
@@ -12,6 +13,11 @@ const isOffline = computed(() => !props.zone.reachable)
 const isActive = computed(() => isPlaying.value && !isOffline.value)
 
 const busy = ref(false)
+const showFavorites = ref(false)
+
+function toggleFavorites() {
+  showFavorites.value = !showFavorites.value
+}
 
 function withDebounce(fn: () => void) {
   if (busy.value) return
@@ -123,6 +129,16 @@ function handleMuteToggle() {
     <!-- Header: zone name + source icon -->
     <div class="zone-header">
       <span class="zone-name">{{ zone.name }}</span>
+      <button
+        v-if="!isOffline"
+        class="fav-btn"
+        @click="toggleFavorites"
+        aria-label="Favoris"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </button>
       <span class="zone-source-icon" :aria-label="sourceLabel(zone.source)">
         <template v-if="zone.source === 'spotify'">
           <!-- Spotify: simplified ring+dots icon -->
@@ -261,6 +277,14 @@ function handleMuteToggle() {
         </svg>
       </button>
     </div>
+
+    <!-- Favorites sheet — opened by heart button in header -->
+    <FavoritesSheet
+      :visible="showFavorites"
+      :zone-name="zone.name"
+      :zone-uuid="zone.uuid"
+      @close="showFavorites = false"
+    />
 
     <!-- Volume row: mute toggle + volume slider, hidden for offline zones -->
     <div class="volume-row" v-if="!isOffline">
@@ -527,5 +551,29 @@ function handleMuteToggle() {
   border: none;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Favorites heart button — positioned to left of source icon in header */
+.fav-btn {
+  position: absolute;
+  top: var(--space-sm);
+  right: calc(var(--space-sm) + 22px);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-accent-pink);
+  padding: var(--space-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.15s ease;
+}
+
+.fav-btn:active {
+  opacity: 0.6;
 }
 </style>
