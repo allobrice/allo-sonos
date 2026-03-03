@@ -86,11 +86,31 @@ None.
 
 None - no external service configuration required.
 
+## Human Verification Status
+
+**DEFERRED — pending next session**
+
+Task 2 is a `checkpoint:human-verify` requiring a live Sonos environment. The user did not have access to the Sonos system on 2026-03-03. Verification is deferred to the next available session.
+
+**Verification checklist (to complete next session):**
+1. Start both backend and frontend dev servers
+2. Navigate to zones dashboard — confirm each online zone card shows a pink heart icon
+3. Confirm offline zone cards do NOT show the heart icon
+4. Tap the heart on any online zone — confirm the bottom sheet slides up with "Favoris — {zone name}" header
+5. Confirm skeleton shimmer appears briefly before favorites load
+6. Confirm each favorite shows a type icon (radio/playlist/album) and title
+7. Tap any favorite — confirm the sheet closes immediately
+8. Confirm the zone card updates to reflect new playback (via WebSocket)
+9. Re-open the sheet — confirm favorites load instantly (cached)
+10. Tap backdrop — confirm sheet closes without playing anything
+11. Open sheet and tap X close button — confirm sheet closes
+
 ## Next Phase Readiness
 
-- Full favorites flow complete: heart button opens sheet, tap a favorite plays and closes, backdrop/X closes without playing
-- Human verification (Task 2 checkpoint) is the only remaining step before this phase is fully done
+- Full favorites flow is code-complete: heart button opens sheet, tap a favorite plays and closes, backdrop/X closes without playing
+- Human verification of the end-to-end flow is deferred to the next session (requires live Sonos environment)
 - No further development phases planned for v1.2 Sonos Favorites milestone
+- Once visual verification is confirmed, v1.2 milestone can be marked shipped
 
 ## Self-Check: PASSED
 
@@ -99,4 +119,4 @@ None - no external service configuration required.
 
 ---
 *Phase: 08-favorites-ui*
-*Completed: 2026-03-03*
+*Completed: 2026-03-03 (code-complete; visual verification deferred)*

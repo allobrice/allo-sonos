@@ -9,6 +9,7 @@ progress:
   completed_phases: 2
   total_plans: 3
   completed_plans: 3
+  verification_pending: true
 ---
 
 # Project State
@@ -18,14 +19,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
-**Current focus:** Phase 8 — Favorites UI (Complete)
+**Current focus:** Phase 8 — Favorites UI (code-complete; visual verification deferred to next session)
 
 ## Current Position
 
 Phase: 8 of 8 (Favorites UI)
-Plan: 2 of 2 complete — Phase 8 Plan 2 done (awaiting human verification checkpoint)
-Status: Active — checkpoint paused at Task 2 human-verify
-Last activity: 2026-03-03 — Completed 08-02 ZoneCard heart button integration; awaiting visual verification
+Plan: 2 of 2 complete — Phase 8 Plan 2 code-complete; human verification deferred
+Status: Active — v1.2 code-complete, visual verification pending next session (requires Sonos environment)
+Last activity: 2026-03-03 — 08-02 ZoneCard integration complete; human verification deferred (no Sonos access today)
 
 Progress: [██████████] 100%
 
@@ -88,5 +89,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Checkpoint 08-02 Task 2 — Awaiting human verification of complete favorites flow
+Stopped at: 08-02 complete — human verification of favorites flow deferred to next session (no Sonos environment available)
 Resume file: None
+Next session: Run visual verification checklist in 08-02-SUMMARY.md; mark v1.2 shipped once confirmed
