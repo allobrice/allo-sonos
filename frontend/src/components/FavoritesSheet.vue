@@ -75,7 +75,7 @@ function handleRetry() {
           <!-- Error state -->
           <div v-else-if="favStore.error" class="sheet-body sheet-error">
             <p>{{ favStore.error }}</p>
-            <button class="retry-btn" @click="handleRetry">Reessayer</button>
+            <button class="retry-btn" @click="handleRetry">Réessayer</button>
           </div>
 
           <!-- Empty state -->
