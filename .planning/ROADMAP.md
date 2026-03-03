@@ -68,7 +68,10 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
   3. Each favorite in the list displays a visual indicator of its type (station, playlist, album)
   4. Tapping a favorite starts playback on that zone and closes the panel automatically
   5. User can close the panel without selecting a favorite using the same button or an explicit close control
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 08-01-PLAN.md — Favorites store + FavoritesSheet bottom-sheet component
+- [ ] 08-02-PLAN.md — ZoneCard integration + visual verification
 
 ## Progress
 
@@ -84,4 +87,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 5. Zone Display | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 6. Playback Controls | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 7. Favorites Backend | v1.2 | 1/1 | Complete | 2026-03-03 |
-| 8. Favorites UI | v1.2 | 0/? | Not started | - |
+| 8. Favorites UI | v1.2 | 0/2 | Not started | - |
