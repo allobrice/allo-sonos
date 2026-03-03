@@ -42,7 +42,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 **Milestone Goal:** Permettre de parcourir et lancer les favoris Sonos directement depuis chaque zone card.
 
-- [ ] **Phase 7: Favorites Backend** — Endpoints REST pour récupérer les favoris (ContentDirectory SOAP) et lancer un favori sur une zone
+- [x] **Phase 7: Favorites Backend** — Endpoints REST pour récupérer les favoris (ContentDirectory SOAP) et lancer un favori sur une zone (1/1 plan) — completed 2026-03-03
 - [ ] **Phase 8: Favorites UI** — Panneau favoris intégré à la ZoneCard : ouverture/fermeture, liste typée, lancement en un tap
 
 ## Phase Details
@@ -56,7 +56,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
   2. POST /zones/:id/play-favorite accepts a favorite URI and starts playback on the target zone
   3. The favorites list is fetched via ContentDirectory SOAP (Browse FV:2) from a reachable speaker
   4. A favorite with an unknown type falls back to a safe default type rather than failing
-**Plans**: TBD
+**Plans**: 1/1 complete
 
 ### Phase 8: Favorites UI
 **Goal**: L'utilisateur peut parcourir et lancer un favori directement depuis la ZoneCard
@@ -83,5 +83,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 4. App Shell + PIN Auth | v1.0 | 2/2 | Complete | 2026-02-27 |
 | 5. Zone Display | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 6. Playback Controls | v1.1 | 2/2 | Complete | 2026-02-27 |
-| 7. Favorites Backend | v1.2 | 0/? | Not started | - |
+| 7. Favorites Backend | v1.2 | 1/1 | Complete | 2026-03-03 |
 | 8. Favorites UI | v1.2 | 0/? | Not started | - |
