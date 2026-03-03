@@ -8,6 +8,7 @@ import healthRoutes from './routes/health.js'
 import speakerRoutes from './routes/speakers.js'
 import wsRoutes from './routes/ws.js'
 import authRoutes from './routes/auth.js'
+import favoritesRoutes from './routes/favorites.js'
 
 export async function buildApp() {
   const fastify = Fastify({
@@ -37,10 +38,11 @@ export async function buildApp() {
   await fastify.register(genaPlugin)
 
   // 6. Routes (depend on env, sonos, websocket, and gena plugins)
-  await fastify.register(healthRoutes)
-  await fastify.register(speakerRoutes)
+  await fastify.register(healthRoutes, { prefix: '/api' })
+  await fastify.register(speakerRoutes, { prefix: '/api' })
   await fastify.register(wsRoutes)
-  await fastify.register(authRoutes)
+  await fastify.register(authRoutes, { prefix: '/api' })
+  await fastify.register(favoritesRoutes, { prefix: '/api' })
 
   return fastify
 }
