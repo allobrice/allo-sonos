@@ -10,14 +10,14 @@ Requirements for milestone v1.2 Sonos Favorites. Each maps to roadmap phases.
 ### Favoris
 
 - [x] **FAV-01**: User peut voir la liste de tous les favoris Sonos depuis une zone card
-- [ ] **FAV-02**: User peut lancer un favori (station, playlist, album) sur la zone sélectionnée
+- [x] **FAV-02**: User peut lancer un favori (station, playlist, album) sur la zone sélectionnée
 - [x] **FAV-03**: User voit le type de favori (station radio, playlist, album) dans la liste
 - [x] **FAV-04**: Les favoris se chargent depuis le système Sonos (ContentDirectory SOAP)
 
 ### Navigation
 
-- [ ] **NAV-01**: User peut ouvrir/fermer le panneau favoris via un bouton sur la ZoneCard
-- [ ] **NAV-02**: La liste des favoris se ferme automatiquement après sélection
+- [x] **NAV-01**: User peut ouvrir/fermer le panneau favoris via un bouton sur la ZoneCard
+- [x] **NAV-02**: La liste des favoris se ferme automatiquement après sélection
 
 ## Future Requirements
 
@@ -52,11 +52,11 @@ Requirements for milestone v1.2 Sonos Favorites. Each maps to roadmap phases.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | FAV-01 | Phase 8 | Complete |
-| FAV-02 | Phase 8 | Pending |
+| FAV-02 | Phase 8 | Complete |
 | FAV-03 | Phase 8 | Complete |
 | FAV-04 | Phase 7 | Complete |
-| NAV-01 | Phase 8 | Pending |
-| NAV-02 | Phase 8 | Pending |
+| NAV-01 | Phase 8 | Complete |
+| NAV-02 | Phase 8 | Complete |
 
 **Coverage:**
 - v1.2 requirements: 6 total

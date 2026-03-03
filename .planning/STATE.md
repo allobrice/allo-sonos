@@ -6,9 +6,9 @@ status: active
 last_updated: "2026-03-03"
 progress:
   total_phases: 2
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  completed_phases: 2
+  total_plans: 3
+  completed_plans: 3
 ---
 
 # Project State
@@ -18,30 +18,31 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
-**Current focus:** Phase 8 — Favorites UI
+**Current focus:** Phase 8 — Favorites UI (Complete)
 
 ## Current Position
 
 Phase: 8 of 8 (Favorites UI)
-Plan: 1 of 1 complete — Phase 8 Plan 1 done
-Status: Active
-Last activity: 2026-03-03 — Completed 08-01 Favorites Store and FavoritesSheet Component
+Plan: 2 of 2 complete — Phase 8 Plan 2 done (awaiting human verification checkpoint)
+Status: Active — checkpoint paused at Task 2 human-verify
+Last activity: 2026-03-03 — Completed 08-02 ZoneCard heart button integration; awaiting visual verification
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2 (v1.2)
-- Average duration: 5 min
-- Total execution time: 0.2 hours
+- Total plans completed: 3 (v1.2)
+- Average duration: ~4 min
+- Total execution time: ~0.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 7. Favorites Backend | 1/1 | 8 min | 8 min |
-| 8. Favorites UI | 1/1 | 2 min | 2 min |
+| 8. Favorites UI | 2/2 | 3 min | 1.5 min |
+| Phase 08-favorites-ui P02 | 1 | 1 tasks | 1 files |
 
 **Recent Trend:**
 - Last 5 plans (v1.1 reference): ~30 min each
@@ -72,6 +73,10 @@ Key architectural decisions carried forward:
 - playFavorite is fire-and-forget (no optimistic UI update) — WebSocket state_changed event pushes updated zone state to ZoneCard
 - typeIconPath(type) function returns SVG path d attribute per type — cleaner than v-if per icon in template
 
+**08-02 decisions:**
+- Heart button hidden on offline zones (v-if="!isOffline") — consistent with transport controls visibility pattern
+- FavoritesSheet mounted inside ZoneCard template — sheet manages its own Teleport to body, no z-index conflicts
+
 ### Pending Todos
 
 None.
@@ -83,5 +88,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 08-01-PLAN.md — Favorites Store and FavoritesSheet Component
+Stopped at: Checkpoint 08-02 Task 2 — Awaiting human verification of complete favorites flow
 Resume file: None
