@@ -8,7 +8,7 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 - ✅ **v1.0 Sonos Pilot** — Phases 1-4 (shipped 2026-02-27)
 - ✅ **v1.1 Zone Dashboard** — Phases 5-6 (shipped 2026-02-27)
-- 🚧 **v1.2 Sonos Favorites** — Phases 7-8 (code-complete; visual verification deferred to next session)
+- 🚧 **v1.2 Sonos Favorites** — Phases 7-8 (UAT gap closure in progress)
 
 ## Phases
 
@@ -38,12 +38,12 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
 
 </details>
 
-### 🚧 v1.2 Sonos Favorites (Code-complete — visual verification deferred to next session)
+### 🚧 v1.2 Sonos Favorites (UAT gap closure in progress)
 
 **Milestone Goal:** Permettre de parcourir et lancer les favoris Sonos directement depuis chaque zone card.
 
 - [x] **Phase 7: Favorites Backend** — Endpoints REST pour récupérer les favoris (ContentDirectory SOAP) et lancer un favori sur une zone (1/1 plan) — completed 2026-03-03
-- [x] **Phase 8: Favorites UI** — Panneau favoris intégré à la ZoneCard : ouverture/fermeture, liste typée, lancement en un tap (2/2 plans code-complete; visual verification deferred to next session)
+- [ ] **Phase 8: Favorites UI** — Panneau favoris intégré à la ZoneCard : ouverture/fermeture, liste typée, lancement en un tap (3 plans — 2 complete, 1 gap closure pending)
 
 ## Phase Details
 
@@ -68,10 +68,11 @@ Sonos Pilot se construit de l'intérieur vers l'extérieur : d'abord le backend 
   3. Each favorite in the list displays a visual indicator of its type (station, playlist, album)
   4. Tapping a favorite starts playback on that zone and closes the panel automatically
   5. User can close the panel without selecting a favorite using the same button or an explicit close control
-**Plans**: 2 plans
+**Plans**: 3 plans
 Plans:
 - [x] 08-01-PLAN.md — Favorites store + FavoritesSheet bottom-sheet component
-- [x] 08-02-PLAN.md — ZoneCard integration (code-complete; visual verification deferred to next session)
+- [x] 08-02-PLAN.md — ZoneCard integration (code-complete)
+- [ ] 08-03-PLAN.md — Gap closure: rebuild stale backend dist + add error logging to playFavorite
 
 ## Progress
 
@@ -87,4 +88,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 5. Zone Display | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 6. Playback Controls | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 7. Favorites Backend | v1.2 | 1/1 | Complete | 2026-03-03 |
-| 8. Favorites UI | v1.2 | 2/2 | Code-complete (verification deferred) | 2026-03-03 |
+| 8. Favorites UI | v1.2 | 2/3 | Gap closure pending | — |
