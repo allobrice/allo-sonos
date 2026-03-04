@@ -2,14 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Sonos Favorites
-status: active
-last_updated: "2026-03-03"
+status: complete
+last_updated: "2026-03-04"
 progress:
   total_phases: 2
   completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
-  verification_pending: true
+  total_plans: 4
+  completed_plans: 4
 ---
 
 # Project State
@@ -19,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans friction ni surcharge visuelle.
-**Current focus:** Phase 8 — Favorites UI (code-complete; visual verification deferred to next session)
+**Current focus:** Phase 8 — Favorites UI (gap closure complete; v1.2 ready for final UAT re-test)
 
 ## Current Position
 
 Phase: 8 of 8 (Favorites UI)
-Plan: 2 of 2 complete — Phase 8 Plan 2 code-complete; human verification deferred
-Status: Active — v1.2 code-complete, visual verification pending next session (requires Sonos environment)
-Last activity: 2026-03-03 — 08-02 ZoneCard integration complete; human verification deferred (no Sonos access today)
+Plan: 3 of 3 complete — 08-03 gap closure complete (stale dist rebuilt, playFavorite error logging added)
+Status: Active — v1.2 code-complete, backend dist rebuilt, ready for final UAT re-test
+Last activity: 2026-03-04 — 08-03 gap closure complete; UAT test 6 should now pass with rebuilt dist
 
 Progress: [██████████] 100%
 
@@ -42,7 +41,7 @@ Progress: [██████████] 100%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 7. Favorites Backend | 1/1 | 8 min | 8 min |
-| 8. Favorites UI | 2/2 | 3 min | 1.5 min |
+| 8. Favorites UI | 3/3 | 8 min | 2.7 min |
 | Phase 08-favorites-ui P02 | 1 | 1 tasks | 1 files |
 
 **Recent Trend:**
@@ -50,6 +49,7 @@ Progress: [██████████] 100%
 - Trend: Stable
 
 *Updated after each plan completion*
+| Phase 08-favorites-ui P03 | 5 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -77,6 +77,8 @@ Key architectural decisions carried forward:
 **08-02 decisions:**
 - Heart button hidden on offline zones (v-if="!isOffline") — consistent with transport controls visibility pattern
 - FavoritesSheet mounted inside ZoneCard template — sheet manages its own Teleport to body, no z-index conflicts
+- [Phase 08-favorites-ui]: dist/ is gitignored — fix is to rebuild, not commit compiled output
+- [Phase 08-favorites-ui]: console.warn in playFavorite (not console.error) — fire-and-forget pattern preserved, warning for dev visibility only
 
 ### Pending Todos
 
@@ -88,7 +90,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-03
-Stopped at: 08-02 complete — human verification of favorites flow deferred to next session (no Sonos environment available)
+Last session: 2026-03-04
+Stopped at: Completed 08-03-PLAN.md — gap closure complete, v1.2 ready for final UAT verification
 Resume file: None
-Next session: Run visual verification checklist in 08-02-SUMMARY.md; mark v1.2 shipped once confirmed
+Next session: Re-run UAT test 6 ("Jouer un favori") — tap a favorite, confirm zone starts playback; mark v1.2 shipped once 9/9 pass
