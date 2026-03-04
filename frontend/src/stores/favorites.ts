@@ -26,7 +26,7 @@ export const useFavoritesStore = defineStore('favorites', () => {
       if (!res.ok) throw new Error('Non-ok response')
       const data: Favorite[] = await res.json()
       favorites.value = data
-    } catch {
+    } catch (err) {
       error.value = 'Impossible de charger les favoris'
     } finally {
       loading.value = false
@@ -48,8 +48,8 @@ export const useFavoritesStore = defineStore('favorites', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ uri: favorite.uri, type: favorite.type }),
       })
-    } catch {
-      // Silently ignore — consistent with sendNext/sendPrevious pattern
+    } catch (err) {
+      console.warn('[favorites] playFavorite failed:', err)
     }
   }
 
