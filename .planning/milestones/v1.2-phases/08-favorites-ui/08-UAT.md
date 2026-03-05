@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 08-favorites-ui
 source: 08-01-SUMMARY.md, 08-02-SUMMARY.md
 started: 2026-03-03T10:00:00Z
@@ -65,7 +65,13 @@ skipped: 0
   reason: "User reported: le sheet se ferme au clic sur un favori mais le contenu n'est pas joué, la musique en cours continue."
   severity: major
   test: 6
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "backend dist/ directory is stale (Mar 2) and predates favorites feature (Mar 3). dist/app.js missing favorites import/registration, dist/routes/favorites.js and dist/services/sonos-favorites.js do not exist. API returns 404 silently swallowed by frontend catch block."
+  artifacts:
+    - path: "backend/dist/app.js"
+      issue: "Stale build - missing favorites import and route registration"
+    - path: "frontend/src/stores/favorites.ts"
+      issue: "Lines 51-53: bare catch {} silently swallows 404 errors"
+  missing:
+    - "Rebuild backend dist (npm run build) to include favorites routes"
+    - "Add minimal error feedback in playFavorite catch block"
+  debug_session: ".planning/debug/favorite-not-playing.md"

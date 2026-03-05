@@ -89,6 +89,51 @@
 
 ---
 
+## Milestone: v1.2 — Sonos Favorites
+
+**Shipped:** 2026-03-04
+**Phases:** 2 | **Plans:** 4 | **Tasks:** 7
+
+### What Was Built
+- ContentDirectory SOAP Browse FV:2 service with 5-minute in-memory TTL cache and stale fallback on error
+- REST API: GET /api/favorites + POST /api/speakers/:id/play-favorite with coordinator routing and escapeXml
+- Pinia favorites store with frontend cache guard (skip if already loaded) and fire-and-forget playFavorite
+- FavoritesSheet bottom-sheet component: skeleton shimmer, error+retry, empty state, favorites list with SVG type icons
+- ZoneCard heart button integration: pink heart opens sheet, tap-to-play-and-close, backdrop/X close without playing
+
+### What Worked
+- **Backend → UI layering** continued from v1.0/v1.1 — Phase 7 API complete before Phase 8 UI touched favorites
+- **Direct SOAP pattern reuse** — ContentDirectory Browse followed the exact same raw fetch pattern as playback commands
+- **Fire-and-forget with WebSocket update** — no optimistic UI needed for favorites; WebSocket state_changed pushes the update naturally
+- **Gap closure process** — audit identified stale dist issue, 08-03 gap plan fixed it surgically in 5 minutes
+- **Fast velocity** — 4 plans in ~16 minutes total execution time
+
+### What Was Inefficient
+- **Stale backend dist** not caught until UAT — adding new routes requires rebuilding dist, but this wasn't obvious until runtime 404 on /api/favorites
+- **playFavorite silent catch** — initial implementation had empty catch block, caught by audit as tech debt
+- **SUMMARY one_liner still missing from frontmatter** — third milestone in a row with this gap; gsd-tools summary-extract returns null
+- **fav-btn touch target 28x28px** — below 44px accessibility guideline; inconsistent with other buttons
+
+### Patterns Established
+- ContentDirectory SOAP Browse pattern: raw fetch to `/MediaServer/ContentDirectory/Control`, DIDL-Lite double-parse
+- Module-level cache with TTL + stale fallback: simple, effective, no external dependency
+- Bottom-sheet pattern: Teleport to body + Transition + fixed overlay + slide-up CSS animation
+- Watch props.visible for lazy data loading — sheet fetches only on first open
+- Always rebuild backend dist after adding new routes before UAT
+
+### Key Lessons
+1. **Rebuild dist after every backend change** — gitignored dist can silently serve stale code, causing confusing 404s
+2. **Never silently catch API errors** — even fire-and-forget patterns should log warnings for developer visibility
+3. **Gap closure is cheap when caught by audit** — the 08-03 plan took 5 minutes; finding the root cause in UAT would have taken much longer without the audit
+4. **SUMMARY frontmatter automation gap persists** — three milestones without one_liner field populated; should be addressed at workflow level
+
+### Cost Observations
+- Model mix: ~30% opus, ~60% sonnet, ~10% haiku (estimated)
+- Sessions: ~6 (context + plan + execute per phase, plus audit + gap closure)
+- Notable: Phase 7 backend executed in 8 minutes — direct SOAP patterns fully established from v1.0
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -97,10 +142,13 @@
 |-----------|--------|-------|------------|
 | v1.0 | 4 | 7 | Initial project — established spike-first, inside-out phase ordering |
 | v1.1 | 2 | 4 | Dashboard build — layered store→component→controls, optimistic UI patterns |
+| v1.2 | 2 | 4 | Favorites — SOAP content browsing, bottom-sheet pattern, gap closure process validated |
 
 ### Top Lessons (Verified Across Milestones)
 
 1. Spike hardware APIs before building production code on them
-2. Keep SUMMARY frontmatter populated for downstream automation (failed in both v1.0 and v1.1)
+2. Keep SUMMARY frontmatter populated for downstream automation (failed in v1.0, v1.1, and v1.2)
 3. Layered phase dependencies (infra → display → controls) deliver clean, fast iterations
 4. Decouple continuous input (sliders) from server-synced state with local refs
+5. Always rebuild dist after backend changes — stale compiled output causes silent failures (v1.2)
+6. Milestone audit catches issues cheaply — gap closure is surgical when root cause is identified early (v1.2)

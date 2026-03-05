@@ -1,5 +1,22 @@
 # Milestones
 
+## v1.2 Sonos Favorites (Shipped: 2026-03-04)
+
+**Phases completed:** 2 phases, 4 plans, 7 tasks
+**Timeline:** 3 days (2026-03-02 → 2026-03-04)
+**LOC:** 4,059 total (+707 in v1.2)
+**Git range:** `68cf03b` (feat(07-01)) → `f86e171` (fix(08-03))
+
+**Key accomplishments:**
+- ContentDirectory SOAP Browse FV:2 service with 5-minute in-memory TTL cache and graceful degradation
+- REST API: GET /api/favorites + POST /api/speakers/:id/play-favorite with coordinator routing
+- Pinia favorites store with frontend cache guard and fire-and-forget playFavorite action
+- FavoritesSheet bottom-sheet component: skeleton shimmer, error+retry, empty state, favorites list with SVG type icons
+- ZoneCard heart button integration: tap opens sheet, select plays and closes, backdrop/X closes without playing
+- 9/9 UAT tests passed after gap closure (stale dist rebuild + console.warn error logging)
+
+---
+
 ## v1.0 Sonos Pilot (Shipped: 2026-02-27)
 
 **Phases completed:** 4 phases, 7 plans, 16 tasks

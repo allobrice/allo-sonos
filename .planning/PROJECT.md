@@ -2,7 +2,7 @@
 
 ## What This Is
 
-Une application web légère permettant de piloter le réseau Sonos d'entreprise (2-5 zones) depuis n'importe quel navigateur sur le réseau local. Backend Fastify avec découverte SSDP, commandes SOAP directes, et push WebSocket en temps réel. Frontend Vue 3 avec dashboard de zones interactif — grille responsive affichant l'état de chaque zone avec contrôles de playback directs (play/pause, skip, volume, mute).
+Une application web légère permettant de piloter le réseau Sonos d'entreprise (2-5 zones) depuis n'importe quel navigateur sur le réseau local. Backend Fastify avec découverte SSDP, commandes SOAP directes, et push WebSocket en temps réel. Frontend Vue 3 avec dashboard de zones interactif — grille responsive affichant l'état de chaque zone avec contrôles de playback directs et accès aux favoris Sonos.
 
 ## Core Value
 
@@ -21,17 +21,16 @@ Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans fric
 - ✓ Contrôles de playback par zone : play/pause, skip, volume slider, mute — v1.1 (optimistic UI, debounced volume, 300ms anti-double-tap)
 - ✓ Indicateur de source musicale par zone — v1.1 (inline SVG icons: Spotify, Deezer, TuneIn, Library)
 - ✓ Mises à jour temps réel via WebSocket — v1.1 (snapshot load + state_changed dispatch, auto-reconnect)
+- ✓ Parcourir les favoris Sonos depuis la ZoneCard — v1.2 (FavoritesSheet bottom-sheet, ContentDirectory SOAP Browse FV:2)
+- ✓ Lancer un favori sur une zone — v1.2 (fire-and-forget playFavorite, SetAVTransportURI + Play)
+- ✓ Affichage du type de favori (station, playlist, album) — v1.2 (SVG type icons via typeIconPath)
+- ✓ Chargement des favoris depuis ContentDirectory SOAP — v1.2 (5-min TTL cache, graceful degradation)
+- ✓ Ouverture/fermeture du panneau favoris — v1.2 (heart button, backdrop close, X close)
+- ✓ Fermeture automatique après sélection — v1.2 (emit close on handleSelect)
 
 ### Active
 
-#### Current Milestone: v1.2 Sonos Favorites
-
-**Goal:** Permettre de parcourir et lancer les favoris Sonos directement depuis chaque zone card.
-
-**Target features:**
-- Parcourir tous les favoris Sonos (stations, playlists, albums)
-- Lancer un favori sur une zone depuis la ZoneCard
-- Affichage adapté au type de favori
+(Pas de milestone actif — en attente de `/gsd:new-milestone`)
 
 ### Out of Scope
 
@@ -45,10 +44,10 @@ Contrôler la musique de n'importe quelle zone en moins de 3 secondes, sans fric
 
 ## Context
 
-Shipped v1.1 avec 3,526 LOC (TypeScript + Vue + CSS) en 5 jours (v1.0 + v1.1).
+Shipped v1.2 avec 4,059 LOC (TypeScript + Vue + CSS) en 8 jours (v1.0 + v1.1 + v1.2).
 Tech stack: Fastify v5, Vue 3, Pinia, @svrooij/sonos (SSDP only), direct SOAP, @fastify/websocket.
 
-Le backend expose 8 endpoints de playback, un pipeline WebSocket temps réel (GENA → StateCache → broadcast), et une auth par PIN. Le frontend est un SPA Vue 3 avec un dashboard de zones interactif : grille responsive montrant chaque zone avec now playing, source musicale, transport controls (play/pause, skip), volume slider et mute toggle. Toutes les interactions sont optimistes avec revert silencieux en cas d'erreur API.
+Le backend expose 10 endpoints (8 playback + GET /favorites + POST /play-favorite), un pipeline WebSocket temps réel (GENA → StateCache → broadcast), un service ContentDirectory SOAP pour les favoris avec cache TTL 5 min, et une auth par PIN. Le frontend est un SPA Vue 3 avec un dashboard de zones interactif : grille responsive montrant chaque zone avec now playing, source musicale, transport controls, volume slider, mute toggle, et bouton favoris ouvrant un bottom-sheet avec liste typée et lancement en un tap.
 
 ## Constraints
 
@@ -72,6 +71,10 @@ Le backend expose 8 endpoints de playback, un pipeline WebSocket temps réel (GE
 | Optimistic UI avec revert silencieux | Feedback instantané, pas de spinner, revert si erreur API | ✓ Good — UX fluide sans latence perçue |
 | localVolume ref découpée du store | Empêche les sauts pendant le drag, WebSocket sync gated par dragging ref | ✓ Good — slider smooth sans conflits |
 | Dual WebSocket instances (AppHeader + ZonesView) | Architecture simple, chaque composant gère sa connexion | — Acceptable — à revisiter si limites de connexion |
+| ContentDirectory SOAP Browse FV:2 pour favoris | Direct SOAP cohérent avec architecture existante, pas de dépendance supplémentaire | ✓ Good — favoris chargés en < 1s |
+| Cache TTL 5 min + stale fallback | Réduit les appels SOAP, graceful degradation si speaker temporairement indisponible | ✓ Good — résilient sans complexité |
+| Fire-and-forget playFavorite | WebSocket state_changed pousse l'état mis à jour — pas besoin d'optimistic UI | ✓ Good — flow simplifié |
+| Bottom-sheet via Teleport to body | Évite les conflits z-index, sheet au-dessus de tout l'UI | ✓ Good — fonctionne parfaitement |
 
 ---
-*Last updated: 2026-03-02 after v1.2 milestone start*
+*Last updated: 2026-03-04 after v1.2 milestone completion*
