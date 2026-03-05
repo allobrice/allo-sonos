@@ -1,8 +1,8 @@
 import type { FastifyPluginAsync } from 'fastify'
 
 const authRoutes: FastifyPluginAsync = async (fastify) => {
-  // POST /api/auth/pin — validate PIN and set session cookie
-  fastify.post<{ Body: { pin: string } }>('/api/auth/pin', {
+  // POST /auth/pin — validate PIN and set session cookie (prefix /api added in app.ts)
+  fastify.post<{ Body: { pin: string } }>('/auth/pin', {
     schema: {
       body: {
         type: 'object',
@@ -29,8 +29,8 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
     return { ok: true }
   })
 
-  // POST /api/auth/logout — clear session cookie
-  fastify.post('/api/auth/logout', async (_request, reply) => {
+  // POST /auth/logout — clear session cookie (prefix /api added in app.ts)
+  fastify.post('/auth/logout', async (_request, reply) => {
     reply.clearCookie('session', { path: '/' })
     return { ok: true }
   })

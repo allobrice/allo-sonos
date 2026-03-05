@@ -7,7 +7,7 @@ const { connected } = useWebSocket()
 
 <template>
   <header class="app-header">
-    <span class="app-title">Allo Sonos</span>
+    <span class="app-title"><span class="green">Allo</span><span class="pink">Sonos</span></span>
     <WsIndicator :connected="connected" />
   </header>
 </template>
@@ -32,5 +32,13 @@ const { connected } = useWebSocket()
   font-weight: 600;
   font-size: var(--font-size-lg);
   color: var(--color-text-primary);
+}
+
+.green {
+  color: var(--color-accent-green);
+}
+
+.pink {
+  color: var(--color-accent-pink);
 }
 </style>

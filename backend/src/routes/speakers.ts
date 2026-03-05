@@ -61,6 +61,21 @@ async function handleCommand(
 
   const coordinator = fastify.speakers.getCoordinator(id) ?? speaker
 
+  // Log coordinator routing so group-member issues are diagnosable in production.
+  // If coordinator.uuid !== speaker.uuid, the command is routed to a different speaker
+  // (group member → coordinator). If they are the same, the speaker is its own coordinator.
+  if (coordinator.uuid !== speaker.uuid) {
+    fastify.log.info(
+      `[sonos] ${label} — routing member "${speaker.name}" (${speaker.ip}) → coordinator "${coordinator.name}" (${coordinator.ip})`,
+    )
+  } else if (!speaker.isCoordinator) {
+    // Speaker thinks it's a member (isCoordinator=false) but coordinator wasn't found in registry.
+    // Commands will go to the member's own IP which will likely reject AVTransport actions.
+    fastify.log.warn(
+      `[sonos] ${label} — "${speaker.name}" is a group member but coordinator ${speaker.coordinatorUuid} is NOT in registry; sending to member IP ${speaker.ip} (likely to fail)`,
+    )
+  }
+
   try {
     await execute(speaker, coordinator)
     const state = await readSpeakerState(speaker.ip, coordinator.ip)
